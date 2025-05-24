@@ -1,0 +1,39 @@
+--Load Wind
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+--Theme
+WindUI:SetTheme("Dark")
+WindUI:AddTheme({
+    Name = "Dark",
+    Accent = "#18181b",
+    Outline = "#FFFFFF",
+    Text = "#FFFFFF",
+    Placeholder = "#999999",
+    Background = "#0e0e10",
+    Button = "#52525b",
+    Icon = "#a1a1aa",
+})
+
+--Tabs
+local MainTab = Window:Tab({
+    Title = "Main",
+    Icon = "bird",
+    Locked = false,
+})
+
+--Sections
+local MainSection = Tab:Section({ 
+    Title = "Main Scripts",
+    TextXAlignment = "Left",
+    TextSize = 17, -- Default Size
+})
+
+--Buttons
+local Button = MainTab:Button({
+    Title = "Sex Gay",
+    Desc = "IDK",
+    Locked = false,
+    Callback = function()
+        print("clicked")!
+    end
+})
