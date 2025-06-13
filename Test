@@ -141,7 +141,7 @@ local MutationDropdown = MainTab:Dropdown({
 
 -- Toggle bật/tắt auto collect
 local MutationToggle = MainTab:Toggle({
-    Title = "Thu Hoạch Cây Theo Đột Biến",
+    Title = "Auto Collect (Lọc theo đột biến)",
     Desc = "Chỉ thu hoạch các cây có đột biến bạn chọn",
     Icon = "leaf",
     Type = "Checkbox",
@@ -151,4 +151,3 @@ local MutationToggle = MainTab:Toggle({
         print("Auto Mutation Collect: " .. tostring(state))
     end
 })
-
