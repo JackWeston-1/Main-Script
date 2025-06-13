@@ -109,3 +109,46 @@ local Toggle = MainTab:Toggle({
     end
 })
 
+--Mutation Collect
+
+-- Require remote
+local Remotes = require(game:GetService("ReplicatedStorage").Modules.Remotes)
+local CollectRemote = Remotes.Crops.Collect
+
+-- Danh sách đột biến cây trồng
+local mutationTypes = {
+    "Wet", "Chilled", "Choc", "Moonlit", "Pollinated", "Bloodlit",
+    "Plasma", "HoneyGlazed", "Heavenly", "Frozen", "Golden",
+    "Zombified", "Rainbow", "Shocked", "Celestial", "Disco", "Voidtouched", "Dawnbound"
+}
+
+-- Biến toàn cục
+getgenv().SelectedMutations = {}
+getgenv().AutoMutationCollect = false
+
+-- Dropdown chọn đột biến
+local MutationDropdown = Tab:Dropdown({
+    Title = "Chọn đột biến muốn thu hoạch",
+    Values = mutationTypes,
+    Value = {},
+    Multi = true,
+    AllowNone = true,
+    Callback = function(selected)
+        getgenv().SelectedMutations = selected or {}
+        print("Đã chọn đột biến: " .. game:GetService("HttpService"):JSONEncode(getgenv().SelectedMutations))
+    end
+})
+
+-- Toggle bật/tắt auto collect
+local MutationToggle = MainTab:Toggle({
+    Title = "Thu Hoạch Cây Theo Đột Biến",
+    Desc = "Chỉ thu hoạch các cây có đột biến bạn chọn",
+    Icon = "leaf",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoMutationCollect = state
+        print("Auto Mutation Collect: " .. tostring(state))
+    end
+})
+
