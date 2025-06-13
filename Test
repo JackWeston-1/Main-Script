@@ -62,35 +62,31 @@ local Toggle = MainTab:Toggle({
     Callback = function(state)
         print("Auto Collect: " .. tostring(state))
 
-        -- Nếu bật Auto Collect
         if state then
             task.spawn(function()
-                while state do
-                    local player = game.Players.LocalPlayer
-                    local character = player.Character
+                while Toggle:GetState() do
                     local plot = getOwnedPlot()
                     local farm = plot and plot:FindFirstChild("Important") and plot.Important:FindFirstChild("Plants_Physical")
+                    local character = player.Character or player.CharacterAdded:Wait()
+                    local root = character:FindFirstChild("HumanoidRootPart")
 
-                    if farm and character then
-                        local root = character:FindFirstChild("HumanoidRootPart")
-                        if root then
-                            for _, prompt in ipairs(farm:GetDescendants()) do
-                                if prompt:IsA("ProximityPrompt") then
-                                    local dist = (root.Position - prompt.Parent.Position).Magnitude
-                                    if dist <= 20 then
-                                        prompt.Exclusivity = Enum.ProximityPromptExclusivity.AlwaysShow
-                                        prompt.MaxActivationDistance = 100
-                                        prompt.RequiresLineOfSight = false
-                                        prompt.Enabled = true
-                                        fireproximityprompt(prompt, 1, true)
-                                    end
+                    if farm and root then
+                        for _, prompt in ipairs(farm:GetDescendants()) do
+                            if prompt:IsA("ProximityPrompt") then
+                                local distance = (prompt.Parent.Position - root.Position).Magnitude
+                                if distance <= 20 then
+                                    prompt.Enabled = true
+                                    prompt.MaxActivationDistance = 100
+                                    prompt.Exclusivity = Enum.ProximityPromptExclusivity.AlwaysShow
+                                    prompt.RequiresLineOfSight = false
+
+                                    fireproximityprompt(prompt, 1, true)
                                 end
                             end
                         end
                     end
+
                     task.wait(1)
-                    -- Nếu toggle đã bị tắt trong lúc đang chạy, thoát khỏi vòng lặp
-                    if not Toggle:GetState() then break end
                 end
             end)
         end
