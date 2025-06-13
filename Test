@@ -78,7 +78,7 @@ end
 
 -- Toggle UI
 local Toggle = MainTab:Toggle({
-    Title = "Auto Collect",
+    Title = "Thu Hoạch Tất Cả",
     Desc = "Tự động thu hoạch cây trồng của bạn",
     Icon = "leaf",
     Type = "Checkbox",
