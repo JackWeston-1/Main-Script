@@ -127,7 +127,7 @@ getgenv().SelectedMutations = {}
 getgenv().AutoMutationCollect = false
 
 -- Dropdown chọn đột biến
-local MutationDropdown = Tab:Dropdown({
+local MutationDropdown = MainTab:Dropdown({
     Title = "Chọn đột biến muốn thu hoạch",
     Values = mutationTypes,
     Value = {},
