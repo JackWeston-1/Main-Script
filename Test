@@ -10,7 +10,7 @@ local Window = WindUI:CreateWindow({
     Theme = "Dark",
     SideBarWidth = 190,
     Background = "rbxassetid://73209523764649", -- rbxassetid only
-    BackgroundImageTransparency = 0.1,
+    BackgroundImageTransparency = 0.42,
     HideSearchBar = false,
     ScrollBarEnabled = false,
     User = {
@@ -26,7 +26,7 @@ Window:EditOpenButton({
     Title = "GaG",
     Icon = "leaf",
     CornerRadius = UDim.new(0,10),
-    StrokeThickness = 1.25,
+    StrokeThickness = 1.75,
     Color = ColorSequence.new( -- gradient
         Color3.fromHex("6FA8DC"), 
         Color3.fromHex("CFE2F3")
