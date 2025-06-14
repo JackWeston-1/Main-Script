@@ -70,19 +70,13 @@ local EventTab = Window:Tab({
     Locked = false,
 })
 
-local ESPTab = Window:Tab({
-    Title = "ESP",
-    Icon = "eye",
-    Locked = false,
-})
-
 local MiscTab = Window:Tab({
     Title = "Misc",
     Icon = "box",
     Locked = false,
 })
 
-Window:SelectTab(5) -- Number of Tab
+Window:SelectTab(4) -- Number of Tab
 
 
 --Auto Collect
@@ -338,94 +332,6 @@ local EventToggle = EventTab:Toggle({
             end
         end)
     end
-})
-
-
---ESP TAB
-
-local DataSer = require(game:GetService("ReplicatedStorage"):WaitForChild("Modules"):WaitForChild("DataService"))
-local Workspace = game:GetService("Workspace")
-local RunService = game:GetService("RunService")
-
-local espEnabled = false
-local currentESP = {}
-
--- Tạo Billboard ESP
-local function createESP(egg, petName)
-	if currentESP[egg] then return end
-	if egg:FindFirstChild("ESPLabel") then return end
-
-	local billboard = Instance.new("BillboardGui")
-	billboard.Name = "ESPLabel"
-	billboard.Size = UDim2.new(0, 200, 0, 30)
-	billboard.StudsOffset = Vector3.new(0, 3, 0)
-	billboard.AlwaysOnTop = true
-	billboard.Parent = egg
-
-	local label = Instance.new("TextLabel")
-	label.Size = UDim2.new(1, 0, 1, 0)
-	label.BackgroundTransparency = 1
-	label.Text = petName
-	label.TextColor3 = Color3.fromRGB(255, 255, 0)
-	label.TextStrokeTransparency = 0
-	label.TextScaled = true
-	label.Parent = billboard
-
-	currentESP[egg] = billboard
-end
-
--- Xoá ESP
-local function clearESP()
-	for egg, gui in pairs(currentESP) do
-		if gui and gui.Parent then
-			gui:Destroy()
-		end
-	end
-	currentESP = {}
-end
-
--- Cập nhật ESP
-local function updateESP()
-	if not espEnabled then return end
-
-	for _, v in pairs(DataSer:GetData().SavedObjects) do
-		if v.ObjectType == "PetEgg" and v.Data and v.Data.RandomPetData then
-			local petName = v.Data.RandomPetData.Name
-			local eggId = v.Id
-			for _, obj in pairs(Workspace:GetDescendants()) do
-				if obj:IsA("Model") and obj:FindFirstChild("Id") and tostring(obj.Id.Value) == tostring(eggId) then
-					createESP(obj, petName)
-				end
-			end
-		end
-	end
-end
-
--- Lặp cập nhật mỗi 5s nếu đang bật ESP
-task.spawn(function()
-	while true do
-		if espEnabled then
-			updateESP()
-		end
-		wait(5)
-	end
-end)
-
--- Gắn Toggle UI:
-local Toggle = ESPTab:Toggle({
-	Title = "ESP Egg",
-	Desc = "Hiển thị tên pet trong trứng",
-	Icon = "check",
-	Type = "Checkbox",
-	Default = false,
-	Callback = function(state)
-		espEnabled = state
-		if not state then
-			clearESP()
-		else
-			updateESP()
-		end
-	end
 })
 
 
