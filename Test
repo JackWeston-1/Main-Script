@@ -15,7 +15,7 @@ local Window = WindUI:CreateWindow({
     HideSearchBar = false,
     ScrollBarEnabled = false,
     User = {
-        Enabled = false,
+        Enabled = true,
         Anonymous = true,
         Callback = function()
             print("I <3 furina")
