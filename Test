@@ -112,47 +112,72 @@ local Toggle = MainTab:Toggle({
 --Tabs Shop
 
 
--- Danh sách hạt giống
+-- Danh sách hạt giống & gear
 local seedList = {
     "Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato",
     "Corn", "Daffodil", "Watermelon", "Pumpkin", "Apple", "Bamboo",
     "Coconut", "Cactus", "Dragon Fruit", "Mango", "Grape", "Mushroom",
-    "Pepper", "Cacao", "Beanstalk"
+    "Pepper", "Cacao", "Beanstalk", "Ember Lily"
+}
+
+local gearList = {
+    "Watering Can", "Trowel", "Recall Wrench", "Basic Sprinkler",
+    "Advanced Sprinkler", "Godly Sprinkler", "Lightning Rod",
+    "Master Sprinkler", "Favorite Tool", "Havest Tool", "Friendship Pot"
 }
 
 -- Biến toàn cục
 getgenv().SelectedSeeds = {}
-getgenv().AutoBuySeeds = false
+getgenv().SelectedGears = {}
+getgenv().AutoBuyAllItems = false
 
--- Dropdown chọn hạt giống
-local SeedDropdown = ShopTab:Dropdown({
+-- Dropdown chọn SEED
+local SeedDropdown = Tab:Dropdown({
     Title = "Chọn hạt giống muốn mua",
     Values = seedList,
-    Value = {}, -- mặc định không chọn gì
+    Value = {},
     Multi = true,
     AllowNone = true,
     Callback = function(option)
         getgenv().SelectedSeeds = option or {}
-        print("Seeds selected: " .. game:GetService("HttpService"):JSONEncode(getgenv().SelectedSeeds))
     end
 })
 
--- Toggle auto mua
-local SeedToggle = ShopTab:Toggle({
-    Title = "Auto Buy Selected Seeds",
-    Desc = "Mua liên tục các loại hạt giống đã chọn",
-    Icon = "bird",
+-- Dropdown chọn GEAR
+local GearDropdown = Tab:Dropdown({
+    Title = "Chọn gear muốn mua",
+    Values = gearList,
+    Value = {},
+    Multi = true,
+    AllowNone = true,
+    Callback = function(option)
+        getgenv().SelectedGears = option or {}
+    end
+})
+
+-- Toggle để mua tất cả đã chọn
+local BuyAllToggle = Tab:Toggle({
+    Title = "Auto Buy Selected Seeds & Gears",
+    Desc = "Mua tất cả hạt giống và gear đã chọn",
+    Icon = "shopping-cart",
     Type = "Checkbox",
     Default = false,
     Callback = function(state)
-        getgenv().AutoBuySeeds = state
+        getgenv().AutoBuyAllItems = state
         print("Auto Buy Toggle: " .. tostring(state))
-        
+
         task.spawn(function()
-            while getgenv().AutoBuySeeds do
+            while getgenv().AutoBuyAllItems do
+                -- Mua Seeds
                 for _, seed in ipairs(getgenv().SelectedSeeds) do
                     pcall(function()
                         game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(seed)
+                    end)
+                end
+                -- Mua Gears
+                for _, gear in ipairs(getgenv().SelectedGears) do
+                    pcall(function()
+                        game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(gear)
                     end)
                 end
                 task.wait(2)
