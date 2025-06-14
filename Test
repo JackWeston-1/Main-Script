@@ -243,7 +243,7 @@ local BuyAllToggle = ShopTab:Toggle({
 
 local Toggle = EventTab:Toggle({
     Title = "Auto Submit/Collect Honey",
-    Desc = "Tự động Đưa Cây/Collect mật ong",
+    Desc = "Tự động Đưa Cây/Collect mật ong (phải cầm cây bị pollinated)",
     Icon = "check",
     Type = "Checkbox",
     Default = false,
