@@ -1,0 +1,370 @@
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+
+local Window = WindUI:CreateWindow({
+    Title = "Grow a Garden",
+    Icon = "leaf",
+    Author = "Made by Minh",
+    Folder = "hello",
+    Size = UDim2.fromOffset(490, 320),
+    Transparent = true,
+    Outline = true,
+    Theme = "Dark",
+    SideBarWidth = 190,
+    Background = "rbxassetid://73209523764649", -- rbxassetid only
+    BackgroundImageTransparency = 0.42,
+    HideSearchBar = false,
+    ScrollBarEnabled = false,
+    User = {
+        Enabled = true,
+        Anonymous = true,
+        Callback = function()
+            print("clicked")
+        end,
+    },
+})
+
+
+
+Window:EditOpenButton({
+    Title = "GaG",
+    Icon = "leaf",
+    CornerRadius = UDim.new(0,10),
+    StrokeThickness = 1.75,
+    Color = ColorSequence.new( -- gradient
+        Color3.fromHex("6FA8DC"), 
+        Color3.fromHex("CFE2F3")
+    ),
+    OnlyMobile = false,
+    Enabled = true,
+    Draggable = true,
+})
+
+--Tabs
+local MainTab = Window:Tab({
+    Title = "Main",
+    Icon = "house",
+    Desc = "Main Section",
+    Locked = false,
+})
+
+local ShopTab = Window:Tab({
+    Title = "Shop",
+    Icon = "shopping-cart",
+    Locked = false,
+})
+
+local EventTab = Window:Tab({
+    Title = "Event",
+    Icon = "star",
+    Locked = false,
+})
+
+local MiscTab = Window:Tab({
+    Title = "Misc",
+    Icon = "box",
+    Locked = false,
+})
+
+Window:SelectTab(4) -- Number of Tab
+
+
+--Auto Collect
+
+local Remotes = require(game:GetService("ReplicatedStorage").Modules.Remotes)
+local CollectRemote = Remotes.Crops.Collect
+
+local autoCollectRunning = false
+local autoCollectThread = nil
+
+-- Hàm thu hoạch cây
+local function getHarvestableCrops()
+    local result = {}
+    local tagged = game:GetService("CollectionService"):GetTagged("CollectPrompt")
+    for _, prompt in pairs(tagged) do
+        local important = prompt:FindFirstAncestor("Important")
+        if important and important:FindFirstChild("Data") and important.Data:FindFirstChild("Owner") then
+            if important.Data.Owner.Value == game.Players.LocalPlayer.Name then
+                table.insert(result, prompt.Parent.Parent)
+            end
+        end
+    end
+    return result
+end
+
+-- Toggle thu hoach
+local Toggle = MainTab:Toggle({
+    Title = "Thu Hoạch Tất Cả",
+    Desc = "Tự động thu hoạch cây trồng của bạn",
+    Icon = "check",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state) 
+        autoCollectRunning = state
+        print("Auto Collect: " .. tostring(state))
+
+        if state then
+            autoCollectThread = task.spawn(function()
+                while autoCollectRunning do
+                    local crops = getHarvestableCrops()
+                    for _, crop in ipairs(crops) do
+                        pcall(function()
+                            CollectRemote.send({crop})
+                        end)
+                        wait(0.1) -- tránh lag, có thể giảm nếu máy khỏe
+                    end
+                    wait(0.5)
+                end
+            end)
+        else
+            if autoCollectThread then
+                task.cancel(autoCollectThread)
+                autoCollectThread = nil
+            end
+        end
+    end
+})
+
+
+local running = false
+
+local Toggle = MainTab:Toggle({
+    Title = "Auto Sell Inventory",
+    Desc = "Tự động bán tất cả đồ trong inventory mỗi 10s",
+    Icon = "check",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        running = state
+        print("Auto Bán: " .. tostring(state))
+
+        if state then
+            task.spawn(function()
+                while running do
+                    -- Dịch chuyển nhân vật
+                    local char = game.Players.LocalPlayer.Character
+                    if char and char:FindFirstChild("HumanoidRootPart") then
+                        char.HumanoidRootPart.CFrame = CFrame.new(86.58, 3.00, 0.43)
+                    end
+		    wait(0.5)
+                    -- Gửi lệnh bán
+                    game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Sell_Inventory"):FireServer()
+
+                    task.wait(10)
+                end
+            end)
+        end
+    end
+})
+
+
+
+local Button = MainTab:Button({
+    Title = "Sell Hold Item",
+    Desc = "Bán vật phẩm đang cầm trên tay",
+    Locked = false,
+    Callback = function()
+	local char = game.Players.LocalPlayer.Character
+                    if char and char:FindFirstChild("HumanoidRootPart") then
+                        char.HumanoidRootPart.CFrame = CFrame.new(86.58, 3.00, 0.43)
+                    end
+        game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Sell_Item"):FireServer()
+    end
+})
+
+
+--Tabs Shop
+
+
+-- Danh sách hạt giống & gear
+local seedList = {
+    "Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato",
+    "Corn", "Daffodil", "Watermelon", "Pumpkin", "Apple", "Bamboo",
+    "Coconut", "Cactus", "Dragon Fruit", "Mango", "Grape", "Mushroom",
+    "Pepper", "Cacao", "Beanstalk", "Ember Lily"
+}
+
+local gearList = {
+    "Watering Can", "Trowel", "Recall Wrench", "Basic Sprinkler",
+    "Advanced Sprinkler", "Godly Sprinkler", "Lightning Rod",
+    "Master Sprinkler", "Favorite Tool", "Havest Tool", "Friendship Pot"
+}
+
+-- Biến toàn cục
+getgenv().SelectedSeeds = {}
+getgenv().SelectedGears = {}
+getgenv().AutoBuyAllItems = false
+
+-- Dropdown chọn SEED
+local SeedDropdown = ShopTab:Dropdown({
+    Title = "Chọn hạt giống muốn mua",
+    Values = seedList,
+    Value = {},
+    Multi = true,
+    AllowNone = true,
+    Callback = function(option)
+        getgenv().SelectedSeeds = option or {}
+    end
+})
+
+-- Dropdown chọn GEAR
+local GearDropdown = ShopTab:Dropdown({
+    Title = "Chọn gear muốn mua",
+    Values = gearList,
+    Value = {},
+    Multi = true,
+    AllowNone = true,
+    Callback = function(option)
+        getgenv().SelectedGears = option or {}
+    end
+})
+
+-- Toggle để mua tất cả đã chọn
+local BuyAllToggle = ShopTab:Toggle({
+    Title = "Auto Buy Selected Seeds & Gears",
+    Desc = "Mua tất cả hạt giống và gear đã chọn",
+    Icon = "check",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoBuyAllItems = state
+        print("Auto Buy Toggle: " .. tostring(state))
+
+        task.spawn(function()
+            while getgenv().AutoBuyAllItems do
+                -- Mua Seeds
+                for _, seed in ipairs(getgenv().SelectedSeeds) do
+                    pcall(function()
+                        game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(seed)
+                    end)
+                end
+                -- Mua Gears
+                for _, gear in ipairs(getgenv().SelectedGears) do
+                    pcall(function()
+                        game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(gear)
+                    end)
+                end
+                task.wait(0.5)
+            end
+        end)
+    end
+})
+
+--event tabs
+
+local Toggle = EventTab:Toggle({
+    Title = "Auto Submit/Collect Honey",
+    Desc = "Tự động Đưa Cây/Collect mật ong (phải cầm cây bị pollinated)",
+    Icon = "check",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoSubmitPlant = state
+        task.spawn(function()
+            while getgenv().AutoSubmitPlant do
+                pcall(function()
+                    game:GetService("ReplicatedStorage")
+                        :WaitForChild("GameEvents")
+                        :WaitForChild("HoneyMachineService_RE")
+                        :FireServer("MachineInteract")
+                end)
+                task.wait(10)
+            end
+        end)
+    end
+})
+
+
+-- Danh sách item trong Event Shop
+local eventItems = {
+    "Flower Seed Pack", "Lavender", "Nectarshade", "Nectarine", "Hive Fruit",
+    "Pollen Radar", "Nectar Staff", "Honey Sprinkler", "Bee Egg", "Bee Crate",
+    "Honey Comb", "Bee Chair", "Honey Torch", "Honey Walkway"
+}
+
+-- Biến toàn cục
+getgenv().SelectedEventItems = {}
+getgenv().AutoBuyEventItems = false
+
+-- Dropdown chọn item Event Shop
+local EventDropdown = EventTab:Dropdown({
+    Title = "Chọn vật phẩm muốn mua (Event Shop)",
+    Values = eventItems,
+    Value = {},
+    Multi = true,
+    AllowNone = true,
+    Callback = function(option)
+        getgenv().SelectedEventItems = option or {}
+        print("Đã chọn Event Items: " .. game:GetService("HttpService"):JSONEncode(getgenv().SelectedEventItems))
+    end
+})
+
+-- Toggle bật/tắt mua item đã chọn
+local EventToggle = EventTab:Toggle({
+    Title = "Auto Buy Event Items",
+    Desc = "Tự động mua những vật phẩm đã chọn trong Event Shop",
+    Icon = "shopping-cart",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoBuyEventItems = state
+        task.spawn(function()
+            while getgenv().AutoBuyEventItems do
+                for _, itemName in ipairs(getgenv().SelectedEventItems) do
+                    pcall(function()
+                        game:GetService("ReplicatedStorage")
+                            :WaitForChild("GameEvents")
+                            :WaitForChild("BuyEventShopStock")
+                            :FireServer(itemName)
+                    end)
+                end
+                task.wait(0.5)
+            end
+        end)
+    end
+})
+
+
+--Misc Tab
+
+
+local lp = game.Players.LocalPlayer
+
+-- Seed Shop Toggle
+local SeedShopToggle = MiscTab:Toggle({
+    Title = "Seed Shop",
+    Desc = "Mở Shop Seed",
+    Icon = "sprout",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        local ui = lp.PlayerGui:FindFirstChild("Seed_Shop")
+        if ui then ui.Enabled = state end
+    end
+})
+
+-- Gear Shop Toggle
+local GearShopToggle = MiscTab:Toggle({
+    Title = "Gear Shop",
+    Desc = "Mở Shop Gear",
+    Icon = "box",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        local ui = lp.PlayerGui:FindFirstChild("Gear_Shop")
+        if ui then ui.Enabled = state end
+    end
+})
+
+-- Honey Shop Toggle
+local Toggle = MiscTab:Toggle({
+    Title = "Honey Shop",
+    Desc = "Mở Shop Honey",
+    Icon = "star",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        local ui = lp.PlayerGui:FindFirstChild("HoneyEventShop_UI")
+        if ui then ui.Enabled = state end
+    end
+})
