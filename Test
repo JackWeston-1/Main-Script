@@ -132,7 +132,7 @@ getgenv().SelectedGears = {}
 getgenv().AutoBuyAllItems = false
 
 -- Dropdown chọn SEED
-local SeedDropdown = Tab:Dropdown({
+local SeedDropdown = ShopTab:Dropdown({
     Title = "Chọn hạt giống muốn mua",
     Values = seedList,
     Value = {},
@@ -144,7 +144,7 @@ local SeedDropdown = Tab:Dropdown({
 })
 
 -- Dropdown chọn GEAR
-local GearDropdown = Tab:Dropdown({
+local GearDropdown = ShopTab:Dropdown({
     Title = "Chọn gear muốn mua",
     Values = gearList,
     Value = {},
@@ -156,7 +156,7 @@ local GearDropdown = Tab:Dropdown({
 })
 
 -- Toggle để mua tất cả đã chọn
-local BuyAllToggle = Tab:Toggle({
+local BuyAllToggle = ShopTab:Toggle({
     Title = "Auto Buy Selected Seeds & Gears",
     Desc = "Mua tất cả hạt giống và gear đã chọn",
     Icon = "shopping-cart",
@@ -180,7 +180,7 @@ local BuyAllToggle = Tab:Toggle({
                         game:GetService("ReplicatedStorage").GameEvents.BuyGearStock:FireServer(gear)
                     end)
                 end
-                task.wait(2)
+                task.wait(0.5)
             end
         end)
     end
