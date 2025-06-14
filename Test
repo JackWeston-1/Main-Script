@@ -6,7 +6,7 @@ WindUI:AddTheme({
     Outline = "#e5e7eb",      -- Xám nhạt (viền)
     Text = "#ffffff",         -- Chữ TRẮNG
     Placeholder = "#cbd5e1",  -- Placeholder sáng
-    Background = "#1e3a8a",   -- Xanh đậm làm nền (để chữ trắng nổi)
+    Background = "#2986cc",   -- Xanh đậm làm nền (để chữ trắng nổi)
     Button = "#3b82f6",       -- Nút bấm xanh
     Icon = "#ffffff"          -- Icon TRẮNG
 })
