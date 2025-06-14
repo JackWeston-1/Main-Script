@@ -241,21 +241,9 @@ local BuyAllToggle = ShopTab:Toggle({
 
 --event tabs
 
-local Button = EventTab:Button({
-    Title = "Submit Held Plant",
-    Desc = "Đưa cây bị pollinated cho onett (phải cầm)",
-    Locked = false,
-    Callback = function()
-        local args = {
-	"MachineInteract"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("HoneyMachineService_RE"):FireServer(unpack(args))
-    end
-})
-
 local Toggle = EventTab:Toggle({
-    Title = "Auto Collect Honey",
-    Desc = "Tự động collect mật ong sau khi máy xong",
+    Title = "Auto Submit/Collect Honey",
+    Desc = "Tự động Đưa Cây/Collect mật ong",
     Icon = "check",
     Type = "Checkbox",
     Default = false,
