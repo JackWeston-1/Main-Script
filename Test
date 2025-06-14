@@ -2,13 +2,13 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 WindUI:AddTheme({
     Name = "BlueWhite",
-    Accent = "#18181b",       -- Xanh dương sáng (màu nhấn)
-    Outline = "#e5e7eb",      -- Xám nhạt (viền)
-    Text = "#ffffff",         -- Chữ TRẮNG
-    Placeholder = "#cbd5e1",  -- Placeholder sáng
-    Background = "#3d85c6",   -- Xanh đậm làm nền (để chữ trắng nổi)
-    Button = "#3b82f6",       -- Nút bấm xanh
-    Icon = "#ffffff"          -- Icon TRẮNG
+    Accent = "#3b82f6",
+    Outline = "#e5e7eb",
+    Text = "#ffffff",
+    Placeholder = "#cbd5e1",
+    Background = "#1e3a8a",
+    Button = "#3b82f6",
+    Icon = "#ffffff"
 })
 
 
