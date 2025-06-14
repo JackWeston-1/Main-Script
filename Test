@@ -19,7 +19,6 @@ local Window = WindUI:CreateWindow({
     Folder = "hello",
     Size = UDim2.fromOffset(490, 320),
     Transparent = true,
-    Theme = "",
     SideBarWidth = 190,
     Background = "rbxassetid://73209523764649", -- rbxassetid only
     BackgroundImageTransparency = 0.42,
