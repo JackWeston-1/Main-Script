@@ -3,9 +3,9 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 WindUI:AddTheme({
     Name = "BlueWhite",
     Accent = "#3b82f6",
-    Outline = "#e5e7eb",
+    Outline = "#FFFFFF",
     Text = "#ffffff",
-    Placeholder = "#cbd5e1",
+    Placeholder = "#999999",
     Background = "#1e3a8a",
     Button = "#3b82f6",
     Icon = "#ffffff"
