@@ -436,7 +436,7 @@ local SeedShopToggle = MiscTab:Toggle({
 local GearShopToggle = MiscTab:Toggle({
     Title = "Gear Shop",
     Desc = "Mở Shop Gear",
-    Icon = "tool",
+    Icon = "box",
     Type = "Checkbox",
     Default = false,
     Callback = function(state)
@@ -446,7 +446,7 @@ local GearShopToggle = MiscTab:Toggle({
 })
 
 -- Honey Shop Toggle
-local HoneyShopToggle = MiscTab:Toggle({
+local Toggle = MiscTab:Toggle({
     Title = "Honey Shop",
     Desc = "Mở Shop Honey",
     Icon = "star",
