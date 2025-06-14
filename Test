@@ -36,7 +36,7 @@ local MainTab = Window:Tab({
     Locked = false,
 })
 
-local BuyTab = Window:Tab({
+local ShopTab = Window:Tab({
     Title = "Shop",
     Icon = "shop",
     Locked = false,
@@ -109,88 +109,56 @@ local Toggle = MainTab:Toggle({
     end
 })
 
---Mutation Collect
+--Tabs Shop
 
--- Require remote
-local Remotes = require(game:GetService("ReplicatedStorage").Modules.Remotes)
-local CollectRemote = Remotes.Crops.Collect
 
--- Danh sách đột biến cây trồng
-local mutationTypes = {
-    "Wet", "Chilled", "Choc", "Moonlit", "Pollinated", "Bloodlit",
-    "Plasma", "HoneyGlazed", "Heavenly", "Frozen", "Golden",
-    "Zombified", "Rainbow", "Shocked", "Celestial", "Disco", "Voidtouched", "Dawnbound"
+-- Danh sách hạt giống
+local seedList = {
+    "Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato",
+    "Corn", "Daffodil", "Watermelon", "Pumpkin", "Apple", "Bamboo",
+    "Coconut", "Cactus", "Dragon Fruit", "Mango", "Grape", "Mushroom",
+    "Pepper", "Cacao", "Beanstalk"
 }
 
 -- Biến toàn cục
-getgenv().SelectedMutations = {}
-getgenv().AutoMutationCollect = false
+getgenv().SelectedSeeds = {}
+getgenv().AutoBuySeeds = false
 
--- Dropdown chọn đột biến
-local MutationDropdown = MainTab:Dropdown({
-    Title = "Chọn đột biến muốn thu hoạch",
-    Values = mutationTypes,
-    Value = {},
+-- Dropdown chọn hạt giống
+local SeedDropdown = ShopTab:Dropdown({
+    Title = "Chọn hạt giống muốn mua",
+    Values = seedList,
+    Value = {}, -- mặc định không chọn gì
     Multi = true,
     AllowNone = true,
-    Callback = function(selected)
-        getgenv().SelectedMutations = selected or {}
-        print("Đã chọn đột biến: " .. game:GetService("HttpService"):JSONEncode(getgenv().SelectedMutations))
+    Callback = function(option)
+        getgenv().SelectedSeeds = option or {}
+        print("Seeds selected: " .. game:GetService("HttpService"):JSONEncode(getgenv().SelectedSeeds))
     end
 })
 
--- Toggle bật/tắt auto collect
-local MutationToggle = MainTab:Toggle({
-    Title = "Auto Collect (lọc theo đột biến)",
-    Desc = "Chỉ thu hoạch cây có đột biến bạn chọn",
-    Icon = "leaf",
+-- Toggle auto mua
+local SeedToggle = ShopTab:Toggle({
+    Title = "Auto Buy Selected Seeds",
+    Desc = "Mua liên tục các loại hạt giống đã chọn",
+    Icon = "bird",
     Type = "Checkbox",
     Default = false,
     Callback = function(state)
-        getgenv().AutoMutationCollect = state
-        print("Auto Mutation Collect: " .. tostring(state))
+        getgenv().AutoBuySeeds = state
+        print("Auto Buy Toggle: " .. tostring(state))
+        
+        task.spawn(function()
+            while getgenv().AutoBuySeeds do
+                for _, seed in ipairs(getgenv().SelectedSeeds) do
+                    pcall(function()
+                        game:GetService("ReplicatedStorage").GameEvents.BuySeedStock:FireServer(seed)
+                    end)
+                end
+                task.wait(2)
+            end
+        end)
     end
 })
 
--- Hàm kiểm tra cây có đúng đột biến đã chọn
-local function isSelectedMutation(crop)
-    local mutation = crop:GetAttribute("Mutation")
-    if mutation == nil or mutation == "" then return false end
-    for _, selected in pairs(getgenv().SelectedMutations) do
-        if string.lower(selected) == string.lower(mutation) then
-            return true
-        end
-    end
-    return false
-end
 
--- Lấy cây có thể thu hoạch và đúng đột biến
-local function getHarvestableMutatedCrops()
-    local result = {}
-    local tagged = game:GetService("CollectionService"):GetTagged("CollectPrompt")
-    for _, prompt in pairs(tagged) do
-        local important = prompt:FindFirstAncestor("Important")
-        if important and important:FindFirstChild("Data") and important.Data:FindFirstChild("Owner") then
-            if important.Data.Owner.Value == game.Players.LocalPlayer.Name then
-                local crop = prompt.Parent.Parent
-                if isSelectedMutation(crop) then
-                    table.insert(result, crop)
-                end
-            end
-        end
-    end
-    return result
-end
-
--- Auto Collect đột biến đã chọn
-task.spawn(function()
-    while task.wait(1) do
-        if not getgenv().AutoMutationCollect then continue end
-        for _, crop in pairs(getHarvestableMutatedCrops()) do
-            pcall(function()
-                CollectRemote.send({crop})
-            end)
-            wait(0.1)
-        end
-    end
-end)
