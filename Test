@@ -453,7 +453,7 @@ local Toggle = MiscTab:Toggle({
     Type = "Checkbox",
     Default = false,
     Callback = function(state)
-        local ui = lp.PlayerGui:FindFirstChild("Honey_Shop")
+        local ui = lp.PlayerGui:FindFirstChild("HoneyEventShop_UI")
         if ui then ui.Enabled = state end
     end
 })
