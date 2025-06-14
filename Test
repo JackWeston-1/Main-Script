@@ -23,13 +23,13 @@ local Window = WindUI:CreateWindow({
 })
 
 Window:EditOpenButton({
-    Title = "GaG Toggle",
+    Title = "GaG",
     Icon = "leaf",
-    CornerRadius = UDim.new(0,16),
-    StrokeThickness = 1,
+    CornerRadius = UDim.new(0,10),
+    StrokeThickness = 1.25,
     Color = ColorSequence.new( -- gradient
-        Color3.fromHex("FF0F7B"), 
-        Color3.fromHex("F89B29")
+        Color3.fromHex("6FA8DC"), 
+        Color3.fromHex("CFE2F3")
     ),
     OnlyMobile = false,
     Enabled = true,
