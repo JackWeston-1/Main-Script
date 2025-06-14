@@ -72,7 +72,7 @@ end
 local Toggle = MainTab:Toggle({
     Title = "Thu Hoạch Tất Cả",
     Desc = "Tự động thu hoạch cây trồng của bạn",
-    Icon = "checkmark",
+    Icon = "leaf",
     Type = "Checkbox",
     Default = false,
     Callback = function(state) 
@@ -105,7 +105,7 @@ local Toggle = MainTab:Toggle({
 local Toggle = MainTab:Toggle({
     Title = "Auto Sell Inventory",
     Desc = "tự động bán tất cả đồ trong inventory mỗi 10 giây",
-    Icon = "checkmark",
+    Icon = "leaf",
     Type = "Checkbox",
     Default = false,
     Callback = function(state)
