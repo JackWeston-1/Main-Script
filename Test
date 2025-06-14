@@ -4,11 +4,11 @@ WindUI:AddTheme({
     Name = "BlueWhite",
     Accent = "#3b82f6",
     Outline = "#FFFFFF",
-    Text = "#ffffff",
+    Text = "#FFFFFF",
     Placeholder = "#999999",
     Background = "#1e3a8a",
-    Button = "#3b82f6",
-    Icon = "#ffffff"
+    Button = "#2986cc",
+    Icon = "#FFFFFF"
 })
 
 
