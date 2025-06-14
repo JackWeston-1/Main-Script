@@ -44,14 +44,6 @@ local ShopTab = Window:Tab({
 
 Window:SelectTab(2) -- Number of Tab
 
-local Button = MainTab:Button({
-    Title = "Button",
-    Desc = "Test Button",
-    Locked = false,
-    Callback = function()
-        print("clicked")
-    end
-})
 
 --Auto Collect
 
@@ -76,11 +68,11 @@ local function getHarvestableCrops()
     return result
 end
 
--- Toggle UI
+-- Toggle thu hoach
 local Toggle = MainTab:Toggle({
     Title = "Thu Hoạch Tất Cả",
     Desc = "Tự động thu hoạch cây trồng của bạn",
-    Icon = "leaf",
+    Icon = "checkmark",
     Type = "Checkbox",
     Default = false,
     Callback = function(state) 
@@ -108,6 +100,39 @@ local Toggle = MainTab:Toggle({
         end
     end
 })
+
+
+local Toggle = MainTab:Toggle({
+    Title = "Auto Sell Inventory",
+    Desc = "tự động bán tất cả đồ trong inventory mỗi 10 giây",
+    Icon = "checkmark",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        print("Auto Bán: " .. tostring(state))
+        
+        if state then
+            -- Bắt đầu lặp bán
+            task.spawn(function()
+                while Toggle:GetState() do
+                    game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Sell_Inventory"):FireServer()
+                    task.wait(10)
+                end
+            end)
+        end
+    end
+})
+
+
+local Button = MainTab:Button({
+    Title = "Sell Hold Item",
+    Desc = "Bán vật phẩm đang cầm trên tay",
+    Locked = false,
+    Callback = function()
+        game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Sell_Item"):FireServer()
+    end
+})
+
 
 --Tabs Shop
 
