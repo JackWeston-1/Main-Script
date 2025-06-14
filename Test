@@ -13,7 +13,7 @@ WindUI:AddTheme({
 
 
 local Window = WindUI:CreateWindow({
-    Title = "Grow a Garden",
+    Title = "Grow a Garden (Owner Version)",
     Icon = "leaf",
     Author = "Made by Minh",
     Folder = "hello",
