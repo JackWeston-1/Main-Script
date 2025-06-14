@@ -122,7 +122,7 @@ local Toggle = MainTab:Toggle({
                     if char and char:FindFirstChild("HumanoidRootPart") then
                         char.HumanoidRootPart.CFrame = CFrame.new(86.58, 3.00, 0.43)
                     end
-
+		    wait(0.5)
                     -- Gửi lệnh bán
                     game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("Sell_Inventory"):FireServer()
 
