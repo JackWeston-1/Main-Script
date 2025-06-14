@@ -49,7 +49,13 @@ local ShopTab = Window:Tab({
     Locked = false,
 })
 
-Window:SelectTab(2) -- Number of Tab
+local EventTab = Window:Tab({
+    Title = "Event",
+    Icon = "star",
+    Locked = false,
+})
+
+Window:SelectTab(3) -- Number of Tab
 
 
 --Auto Collect
@@ -79,7 +85,7 @@ end
 local Toggle = MainTab:Toggle({
     Title = "Thu Hoạch Tất Cả",
     Desc = "Tự động thu hoạch cây trồng của bạn",
-    Icon = "leaf",
+    Icon = "check",
     Type = "Checkbox",
     Default = false,
     Callback = function(state) 
@@ -114,7 +120,7 @@ local running = false
 local Toggle = MainTab:Toggle({
     Title = "Auto Sell Inventory",
     Desc = "Tự động bán tất cả đồ trong inventory mỗi 10s",
-    Icon = "leaf",
+    Icon = "check",
     Type = "Checkbox",
     Default = false,
     Callback = function(state)
@@ -206,7 +212,7 @@ local GearDropdown = ShopTab:Dropdown({
 local BuyAllToggle = ShopTab:Toggle({
     Title = "Auto Buy Selected Seeds & Gears",
     Desc = "Mua tất cả hạt giống và gear đã chọn",
-    Icon = "shopping-cart",
+    Icon = "check",
     Type = "Checkbox",
     Default = false,
     Callback = function(state)
@@ -228,6 +234,42 @@ local BuyAllToggle = ShopTab:Toggle({
                     end)
                 end
                 task.wait(0.5)
+            end
+        end)
+    end
+})
+
+--event tabs
+
+local Button = EventTab:Button({
+    Title = "Submit Held Plant",
+    Desc = "Đưa cây bị pollinated cho onett (phải cầm)",
+    Locked = false,
+    Callback = function()
+        local args = {
+	"MachineInteract"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("HoneyMachineService_RE"):FireServer(unpack(args))
+    end
+})
+
+local Toggle = EventTab:Toggle({
+    Title = "Auto Collect Honey",
+    Desc = "Tự động collect mật ong sau khi máy xong",
+    Icon = "check",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoSubmitPlant = state
+        task.spawn(function()
+            while getgenv().AutoSubmitPlant do
+                pcall(function()
+                    game:GetService("ReplicatedStorage")
+                        :WaitForChild("GameEvents")
+                        :WaitForChild("HoneyMachineService_RE")
+                        :FireServer("MachineInteract")
+                end)
+                task.wait(10)
             end
         end)
     end
