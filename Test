@@ -2,7 +2,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 local Window = WindUI:CreateWindow({
     Title = "Grow A Garden",
-    Icon = "Info",
+    Icon = "leaf".
     Author = "Made By Minh",
     Folder = "CapyHub",
     Size = UDim2.fromOffset(520, 300),
@@ -15,19 +15,27 @@ local Window = WindUI:CreateWindow({
     HideSearchBar = false,
     ScrollBarEnabled = false,
     User = {
-        Enabled = true,
+        Enabled = false,
         Anonymous = true,
         Callback = function()
-            print("clicked")
+            print("I <3 furina")
         end,
     },
 })
     
 Window:EditOpenButton({
-	Title = "Capy Hub",
-	CornerRadius = UDim.new(0, 10),
-	Draggable = true
-});
+    Title = "GaG",
+    Icon = "monitor",
+    CornerRadius = UDim.new(0,16),
+    StrokeThickness = 2,
+    Color = ColorSequence.new( -- gradient
+        Color3.fromHex("FF0F7B"), 
+        Color3.fromHex("F89B29")
+    ),
+    OnlyMobile = false,
+    Enabled = true,
+    Draggable = true,
+})
 
 local MainTab = Window:Tab({
     Title = "Main",
