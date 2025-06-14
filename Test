@@ -264,3 +264,51 @@ local Toggle = EventTab:Toggle({
 })
 
 
+-- Danh sách item trong Event Shop
+local eventItems = {
+    "Flower Seed Pack", "Lavender", "Nectarshade", "Nectarine", "Hive Fruit",
+    "Pollen Radar", "Nectar Staff", "Honey Sprinkler", "Bee Egg", "Bee Crate",
+    "Honey Comb", "Bee Chair", "Honey Torch", "Honey Walkway"
+}
+
+-- Biến toàn cục
+getgenv().SelectedEventItems = {}
+getgenv().AutoBuyEventItems = false
+
+-- Dropdown chọn item Event Shop
+local EventDropdown = EventTab:Dropdown({
+    Title = "Chọn vật phẩm muốn mua (Event Shop)",
+    Values = eventItems,
+    Value = {},
+    Multi = true,
+    AllowNone = true,
+    Callback = function(option)
+        getgenv().SelectedEventItems = option or {}
+        print("Đã chọn Event Items: " .. game:GetService("HttpService"):JSONEncode(getgenv().SelectedEventItems))
+    end
+})
+
+-- Toggle bật/tắt mua item đã chọn
+local EventToggle = EventTab:Toggle({
+    Title = "Auto Buy Event Items",
+    Desc = "Tự động mua những vật phẩm đã chọn trong Event Shop",
+    Icon = "shopping-cart",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoBuyEventItems = state
+        task.spawn(function()
+            while getgenv().AutoBuyEventItems do
+                for _, itemName in ipairs(getgenv().SelectedEventItems) do
+                    pcall(function()
+                        game:GetService("ReplicatedStorage")
+                            :WaitForChild("GameEvents")
+                            :WaitForChild("BuyEventShopStock")
+                            :FireServer(itemName)
+                    end)
+                end
+                task.wait(0.5)
+            end
+        end)
+    end
+})
