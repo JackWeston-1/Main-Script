@@ -1,5 +1,17 @@
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-    
+
+WindUI:AddTheme({
+    Name = "BlueWhite",
+    Accent = "#3b82f6",       -- Xanh dương sáng (màu nhấn)
+    Outline = "#e5e7eb",      -- Xám nhạt (viền)
+    Text = "#ffffff",         -- Chữ TRẮNG
+    Placeholder = "#cbd5e1",  -- Placeholder sáng
+    Background = "#1e3a8a",   -- Xanh đậm làm nền (để chữ trắng nổi)
+    Button = "#3b82f6",       -- Nút bấm xanh
+    Icon = "#ffffff"          -- Icon TRẮNG
+})
+
+
 local Window = WindUI:CreateWindow({
     Title = "Grow a Garden",
     Icon = "leaf",
@@ -7,7 +19,7 @@ local Window = WindUI:CreateWindow({
     Folder = "hello",
     Size = UDim2.fromOffset(490, 320),
     Transparent = true,
-    Theme = "Dark",
+    Theme = "",
     SideBarWidth = 190,
     Background = "rbxassetid://73209523764649", -- rbxassetid only
     BackgroundImageTransparency = 0.42,
@@ -21,6 +33,9 @@ local Window = WindUI:CreateWindow({
         end,
     },
 })
+
+WindUI:SetTheme("BlueWhite")
+
 
 Window:EditOpenButton({
     Title = "GaG",
