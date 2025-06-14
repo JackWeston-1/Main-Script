@@ -61,7 +61,13 @@ local ESPTab = Window:Tab({
     Locked = false,
 })
 
-Window:SelectTab(4) -- Number of Tab
+local MiscTab = Window:Tab({
+    Title = "Misc",
+    Icon = "box",
+    Locked = false,
+})
+
+Window:SelectTab(5) -- Number of Tab
 
 
 --Auto Collect
@@ -405,4 +411,49 @@ local Toggle = ESPTab:Toggle({
 			updateESP()
 		end
 	end
+})
+
+
+--Misc Tab
+
+
+local lp = game.Players.LocalPlayer
+
+-- Seed Shop Toggle
+local SeedShopToggle = MiscTab:Toggle({
+    Title = "Seed Shop",
+    Desc = "Mở Shop Seed",
+    Icon = "sprout",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        local ui = lp.PlayerGui:FindFirstChild("Seed_Shop")
+        if ui then ui.Enabled = state end
+    end
+})
+
+-- Gear Shop Toggle
+local GearShopToggle = MiscTab:Toggle({
+    Title = "Gear Shop",
+    Desc = "Mở Shop Gear",
+    Icon = "tool",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        local ui = lp.PlayerGui:FindFirstChild("Gear_Shop")
+        if ui then ui.Enabled = state end
+    end
+})
+
+-- Honey Shop Toggle
+local HoneyShopToggle = MiscTab:Toggle({
+    Title = "Honey Shop",
+    Desc = "Mở Shop Honey",
+    Icon = "star",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        local ui = lp.PlayerGui:FindFirstChild("Honey_Shop")
+        if ui then ui.Enabled = state end
+    end
 })
