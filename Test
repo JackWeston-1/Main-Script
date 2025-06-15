@@ -266,7 +266,11 @@ local BuyAllToggle = ShopTab:Toggle({
 
 
 
-
+local Section = EventTab:Section({ 
+    Title = "",
+    TextXAlignment = "Left",
+    TextSize = 17, -- Default Size
+})
 
 -- Danh sách item trong Event Shop
 local eventItems = {
