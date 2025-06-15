@@ -84,7 +84,7 @@ Window:SelectTab(4) -- Number of Tab
 ---------------------------------------------------------------------------Main
 
 local Section = MainTab:Section({ 
-    Title = "Main",
+    Title = "Center",
     TextXAlignment = "Middle",
     TextSize = 17, -- Default Size
 })
@@ -197,7 +197,7 @@ local Button = MainTab:Button({
 
 local Section = ShopTab:Section({ 
     Title = "Shop",
-    TextXAlignment = "Middle",
+    TextXAlignment = "Center",
     TextSize = 17, -- Default Size
 })
 
@@ -280,9 +280,11 @@ local BuyAllToggle = ShopTab:Toggle({
 
 local Section = EventTab:Section({ 
     Title = "Event",
-    TextXAlignment = "Middle",
+    TextXAlignment = "Center",
     TextSize = 17, -- Default Size
 })
+
+
 
 local lp = game.Players.LocalPlayer
 local backpack = lp:WaitForChild("Backpack")
@@ -379,9 +381,13 @@ local Toggle = EventTab:Toggle({
 
 local Section = EventTab:Section({ 
     Title = "Auto Buy",
-    TextXAlignment = "Middle",
+    TextXAlignment = "Center",
     TextSize = 17, -- Default Size
 })
+
+
+
+
 
 -- Danh sách item trong Event Shop
 local eventItems = {
@@ -437,7 +443,7 @@ local EventToggle = EventTab:Toggle({
 
 local Section = MiscTab:Section({ 
     Title = "Misc",
-    TextXAlignment = "Middle",
+    TextXAlignment = "Center",
     TextSize = 17, -- Default Size
 })
 
