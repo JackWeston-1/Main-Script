@@ -286,7 +286,7 @@ local function equipPollinatedTool()
 end
 
 -- Toggle gắn sẵn:
-local Toggle = Tab:Toggle({
+local Toggle = EventTab:Toggle({
     Title = "Auto Send Pollinated",
     Desc = "Tự động cầm và gửi cây có chữ 'Pollinated'",
     Icon = "bird",
