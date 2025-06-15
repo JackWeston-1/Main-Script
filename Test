@@ -276,6 +276,40 @@ local BuyAllToggle = ShopTab:Toggle({
     end
 })
 
+
+local Section = ShopTab:Section({ 
+    Title = "",
+    TextXAlignment = "Left",
+    TextSize = 17, -- Default Size
+})
+
+local Toggle = ShopTab:Toggle({ 
+    Title = "Auto Buy Egg", 
+    Desc = "Tự động mua tất cả trứng trong shop", 
+    Icon = "check",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoBuyEgg = state
+
+        task.spawn(function()
+            while getgenv().AutoBuyEgg do
+                -- Mua Egg 1
+                game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyPetEgg"):FireServer(1)
+                -- Mua Egg 2
+                game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyPetEgg"):FireServer(2)
+                -- Mua Egg 3
+                game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuyPetEgg"):FireServer(3)
+
+                task.wait(5) -- Đợi 5 giây trước khi mua tiếp
+            end
+        end)
+    end
+})
+
+
+
+
 -------------------------------------------------------------------------------event tabs
 
 local Section = EventTab:Section({ 
