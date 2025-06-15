@@ -84,8 +84,8 @@ Window:SelectTab(4) -- Number of Tab
 ---------------------------------------------------------------------------Main
 
 local Section = MainTab:Section({ 
-    Title = "Center",
-    TextXAlignment = "Middle",
+    Title = "Main",
+    TextXAlignment = "Center",
     TextSize = 17, -- Default Size
 })
 
