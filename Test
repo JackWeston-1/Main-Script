@@ -13,7 +13,7 @@ WindUI:AddTheme({
 
 
 local Window = WindUI:CreateWindow({
-    Title = "Grow a Garden (Owner Version)",
+    Title = "Grow a Garden [Custom Version]",
     Icon = "leaf",
     Author = "Made by Minh",
     Folder = "hello",
@@ -80,6 +80,14 @@ local MiscTab = Window:Tab({
 
 Window:SelectTab(4) -- Number of Tab
 
+
+---------------------------------------------------------------------------Main
+
+local Section = MainTab:Section({ 
+    Title = "Main",
+    TextXAlignment = "Middle",
+    TextSize = 17, -- Default Size
+})
 
 --Auto Collect
 
@@ -185,7 +193,13 @@ local Button = MainTab:Button({
 })
 
 
---Tabs Shop
+--------------------------------------------------------------------------------------Tabs Shop
+
+local Section = ShopTab:Section({ 
+    Title = "Shop",
+    TextXAlignment = "Middle",
+    TextSize = 17, -- Default Size
+})
 
 
 -- Danh sách hạt giống & gear
@@ -266,7 +280,7 @@ local BuyAllToggle = ShopTab:Toggle({
 
 local Section = EventTab:Section({ 
     Title = "Event",
-    TextXAlignment = "Left",
+    TextXAlignment = "Middle",
     TextSize = 17, -- Default Size
 })
 
@@ -365,7 +379,7 @@ local Toggle = EventTab:Toggle({
 
 local Section = EventTab:Section({ 
     Title = "Auto Buy",
-    TextXAlignment = "Left",
+    TextXAlignment = "Middle",
     TextSize = 17, -- Default Size
 })
 
@@ -419,7 +433,13 @@ local EventToggle = EventTab:Toggle({
 })
 
 
---Misc Tab
+----------------------------------------------------------------------------------------------------Misc Tab
+
+local Section = MiscTab:Section({ 
+    Title = "Misc",
+    TextXAlignment = "Middle",
+    TextSize = 17, -- Default Size
+})
 
 
 local lp = game.Players.LocalPlayer
