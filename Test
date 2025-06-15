@@ -265,8 +265,10 @@ local BuyAllToggle = ShopTab:Toggle({
 -------------------------------------------------------------------------------event tabs
 
 local lp = game.Players.LocalPlayer
+local rs = game:GetService("ReplicatedStorage")
+local sendRemote = rs:WaitForChild("GameEvents"):WaitForChild("SendPollinated") -- Đổi tên nếu khác
 
--- Hàm tìm tool có "Pollinated" trong tên
+-- Hàm tìm và cầm tool "Pollinated"
 local function findPollinatedTool()
 	for _, tool in ipairs(lp.Backpack:GetChildren()) do
 		if tool:IsA("Tool") and string.find(tool.Name, "Pollinated") then
@@ -276,7 +278,6 @@ local function findPollinatedTool()
 	return nil
 end
 
--- Hàm cầm tool
 local function equipPollinatedTool()
 	local tool = findPollinatedTool()
 	if tool and lp.Character and lp.Character:FindFirstChild("Humanoid") then
@@ -284,32 +285,30 @@ local function equipPollinatedTool()
 	end
 end
 
--- Toggle gửi cây Pollinated
-local EventToggle = EventTab:Toggle({
-    Title = "Auto Sent/Collect Honey",
-    Desc = "Tự động gửi cây có pollinated và Collect honey",
-    Icon = "shopping-cart",
+-- Toggle gắn sẵn:
+local Toggle = Tab:Toggle({
+    Title = "Auto Send Pollinated",
+    Desc = "Tự động cầm và gửi cây có chữ 'Pollinated'",
+    Icon = "bird",
     Type = "Checkbox",
     Default = false,
     Callback = function(state)
+        print("Toggle Activated: " .. tostring(state))
         getgenv().AutoSendPollinated = state
 
+        -- Luồng gửi tự động
         task.spawn(function()
             while getgenv().AutoSendPollinated do
-                -- Tự cầm nếu chưa cầm cây Pollinated
-                local tool = lp.Character and lp.Character:FindFirstChildOfClass("Tool")
+                local char = lp.Character
+                local tool = char and char:FindFirstChildOfClass("Tool")
+
+                -- Nếu chưa cầm đúng, thì cầm
                 if not (tool and string.find(tool.Name, "Pollinated")) then
                     equipPollinatedTool()
-                end
-
-                -- Nếu đang cầm cây Pollinated thì gửi đi
-                local currentTool = lp.Character and lp.Character:FindFirstChildOfClass("Tool")
-                if currentTool and string.find(currentTool.Name, "Pollinated") then
+                else
+                    -- Nếu đang cầm đúng thì gửi
                     pcall(function()
-                        game:GetService("ReplicatedStorage")
-                            :WaitForChild("GameEvents")
-                            :WaitForChild("SendPollinated")
-                            :FireServer(currentTool)
+                        sendRemote:FireServer()
                     end)
                 end
 
@@ -317,7 +316,7 @@ local EventToggle = EventTab:Toggle({
             end
         end)
 
-        -- Cầm lại khi nhân vật hồi sinh
+        -- Cầm lại khi hồi sinh
         lp.CharacterAdded:Connect(function()
             repeat task.wait() until lp:FindFirstChild("Backpack")
             task.wait(1)
@@ -327,6 +326,7 @@ local EventToggle = EventTab:Toggle({
         end)
     end
 })
+
 
 
 
