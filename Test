@@ -264,10 +264,107 @@ local BuyAllToggle = ShopTab:Toggle({
 
 -------------------------------------------------------------------------------event tabs
 
+local Section = EventTab:Section({ 
+    Title = "Event",
+    TextXAlignment = "Left",
+    TextSize = 17, -- Default Size
+})
+
+local lp = game.Players.LocalPlayer
+local backpack = lp:WaitForChild("Backpack")
+local running = false
+local autoEquipConnection = nil
+local characterAddedConnection = nil
+
+-- Tên chứa "Pollinated" (phân biệt chữ hoa/thường)
+local function findPollinatedTool()
+	for _, tool in ipairs(backpack:GetChildren()) do
+		if tool:IsA("Tool") and string.find(tool.Name, "Pollinated") then
+			return tool
+		end
+	end
+	return nil
+end
+
+-- Hàm trang bị tool có tên chứa "Pollinated"
+local function equipPollinatedTool()
+	local tool = findPollinatedTool()
+	if tool and lp.Character and lp.Character:FindFirstChild("Humanoid") then
+		lp.Character.Humanoid:EquipTool(tool)
+	end
+end
+
+-- Gắn vào toggle
+local Toggle = EventTab:Toggle({ 
+	Title = "Auto Equip Pollinated Fruit",
+	Desc = "Tự động cầm trái có Pollinated",
+	Icon = "bird",
+	Type = "Checkbox",
+	Default = false,
+	Callback = function(state) 
+		running = state
+		print("Toggle Activated: " .. tostring(state))
+
+		if state then
+			-- Bắt đầu lặp kiểm tra
+			autoEquipConnection = task.spawn(function()
+				while running do
+					task.wait(1)
+					local currentTool = lp.Character and lp.Character:FindFirstChildOfClass("Tool")
+					if not currentTool or not string.find(currentTool.Name, "Pollinated") then
+						equipPollinatedTool()
+					end
+				end
+			end)
+
+			-- Khi nhân vật hồi sinh
+			characterAddedConnection = lp.CharacterAdded:Connect(function()
+				repeat task.wait() until lp:FindFirstChild("Backpack")
+				task.wait(1)
+				equipPollinatedTool()
+			end)
+		else
+			-- Tắt auto
+			running = false
+			if characterAddedConnection then
+				characterAddedConnection:Disconnect()
+				characterAddedConnection = nil
+			end
+		end
+	end
+})
+
+
+
+local Toggle = EventTab:Toggle({
+    Title = "Auto Submit/Collect Honey",
+    Desc = "Tự động đưa cây bị Pollinated và Collect Honey",
+    Icon = "check",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        getgenv().AutoSubmitPlant = state
+        task.spawn(function()
+            while getgenv().AutoSubmitPlant do
+                pcall(function()
+                    game:GetService("ReplicatedStorage")
+                        :WaitForChild("GameEvents")
+                        :WaitForChild("HoneyMachineService_RE")
+                        :FireServer("MachineInteract")
+                end)
+                task.wait(10)
+            end
+        end)
+    end
+})
+
+
+
+
 
 
 local Section = EventTab:Section({ 
-    Title = "",
+    Title = "Auto Buy",
     TextXAlignment = "Left",
     TextSize = 17, -- Default Size
 })
