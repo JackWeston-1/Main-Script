@@ -521,3 +521,31 @@ local Toggle = MiscTab:Toggle({
         if ui then ui.Enabled = state end
     end
 })
+
+--anti afk
+
+
+local Toggle = MiscTab:Toggle({
+    Title = "Anti AFK",
+    Desc = "Ngăn bị kick khi AFK",
+    Icon = "clock",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        local lp = game:GetService("Players").LocalPlayer
+        local vu = game:GetService("VirtualUser")
+
+        if state then
+            lp.__antiAfkConnection = lp.Idled:Connect(function()
+                vu:Button2Down(Vector2.zero, workspace.CurrentCamera.CFrame)
+                task.wait(1)
+                vu:Button2Up(Vector2.zero, workspace.CurrentCamera.CFrame)
+            end)
+        else
+            if lp.__antiAfkConnection then
+                lp.__antiAfkConnection:Disconnect()
+                lp.__antiAfkConnection = nil
+            end
+        end
+    end
+})
