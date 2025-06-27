@@ -49,55 +49,41 @@ Window:SelectTab(1) -- Number of Tab
 
 
 ----------------------------------------------------------Main------------------------------------------------------------------
+local takeOrderThread = nil
 local ToggleTakeOrder = MainTab:Toggle({
-	Title = "Auto Take Order",
-	Desc = "Tự động nhận order từ khách",
-	Icon = "bird",
-	Type = "Checkbox",
-	Default = false,
-	Callback = function(state)
-		local players = game:GetService("Players")
-		local replicated_storage = game:GetService("ReplicatedStorage")
-		local workspace = game:GetService("Workspace")
-		local local_player = players.LocalPlayer
-
-		local tycoon = nil
-		for _, v in workspace:FindFirstChild("Tycoons"):GetDescendants() do
-			if v.Name == "Player" and v.Value == local_player then
-				tycoon = v.Parent
-				break
-			end
-		end
-
-		local takeOrderRunning = state
-		local takeOrderThread
-
-		if takeOrderRunning and tycoon then
-			takeOrderThread = task.spawn(function()
-				while takeOrderRunning do
-					for _, v in ipairs(local_player.PlayerGui:GetDescendants()) do
-						if v:IsA("TextLabel") and v.Text:lower():find("order") and v.Parent.Parent.Parent.Name == "CustomerSpeechUI" then
-							local adornee = v.Parent.Parent.Parent:FindFirstChild("Adornee")
-							if adornee and adornee.Parent and adornee.Parent.Parent then
-								local group = adornee.Parent.Parent.Name
-								local customer = adornee.Parent.Name
-								replicated_storage:WaitForChild("Events"):WaitForChild("Restaurant"):WaitForChild("TaskCompleted"):FireServer({
-									GroupId = tostring(group),
-									Tycoon = tycoon,
-									Name = "TakeOrder",
-									CustomerId = tostring(customer)
-								})
-							end
-						end
-					end
-					task.wait(0.5)
-				end
-			end)
-		elseif takeOrderThread then
-			task.cancel(takeOrderThread)
-		end
-	end
+    Title = "Auto Take Order",
+    Desc = "Tự động nhận order từ khách",
+    Icon = "bird",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        if state then
+            takeOrderThread = task.spawn(function()
+                while true do
+                    for _, ui in ipairs(game.Players.LocalPlayer.PlayerGui:GetChildren()) do
+                        if ui.Name == "CustomerSpeechUI" and ui:IsA("BillboardGui") then
+                            local adornee = ui:FindFirstChild("Adornee")
+                            if adornee and adornee.Parent and adornee.Parent.Parent then
+                                local group = adornee.Parent.Parent.Name
+                                local customer = adornee.Parent.Name
+                                game.ReplicatedStorage.Events.Restaurant.TaskCompleted:FireServer({
+                                    GroupId = tostring(group),
+                                    Tycoon = tycoon,
+                                    Name = "TakeOrder",
+                                    CustomerId = tostring(customer)
+                                })
+                            end
+                        end
+                    end
+                    task.wait(0.5)
+                end
+            end)
+        elseif takeOrderThread then
+            task.cancel(takeOrderThread)
+        end
+    end
 })
+
 
 
 
@@ -135,57 +121,31 @@ local ToggleDoOrder = MainTab:Toggle({
 
 
 
+local autoCookThread = nil
 local ToggleCook = MainTab:Toggle({
-	Title = "Auto Cook",
-	Desc = "Tự động nấu ăn",
-	Icon = "flame",
-	Type = "Checkbox",
-	Default = false,
-	Callback = function(state)
-		local players = game:GetService("Players")
-		local replicated_storage = game:GetService("ReplicatedStorage")
-		local workspace = game:GetService("Workspace")
-		local local_player = players.LocalPlayer
-
-		local tycoon = nil
-		for _, v in workspace:FindFirstChild("Tycoons"):GetDescendants() do
-			if v.Name == "Player" and v.Value == local_player then
-				tycoon = v.Parent
-				break
-			end
-		end
-
-		local surface = tycoon and tycoon:FindFirstChild("Items"):FindFirstChild("Surface")
-		local delay = 0.25
-		local autoCookThread
-
-		if state and surface then
-			autoCookThread = task.spawn(function()
-				local oven = nil
-				for _, v in surface:GetDescendants() do
-					if v.Name:find("Oven") then
-						oven = v.Parent
-						break
-					end
-				end
-				while state do
-					if oven then
-						local cookEvents = replicated_storage:FindFirstChild("Events")
-						if cookEvents then
-							local cookModule = cookEvents:FindFirstChild("Cook")
-							if cookModule then
-								local cookInput = cookModule:FindFirstChild("CookInputRequested")
-								if cookInput then
-									cookInput:FireServer("Interact", oven, "Oven")
-								end
-							end
-						end
-					end
-					task.wait(delay)
-				end
-			end)
-		elseif autoCookThread then
-			task.cancel(autoCookThread)
-		end
-	end
+    Title = "Auto Cook",
+    Desc = "Tự động nấu ăn",
+    Icon = "flame",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        settings.auto_cook = state
+        if state then
+            autoCookThread = task.spawn(function()
+                while settings.auto_cook do
+                    if surface then
+                        for _, v in surface:GetDescendants() do
+                            if v:IsA("ProximityPrompt") and v.Name == "CookPrompt" then
+                                fireproximityprompt(v)
+                                task.wait()
+                            end
+                        end
+                    end
+                    task.wait(settings.toggle_delay)
+                end
+            end)
+        elseif autoCookThread then
+            task.cancel(autoCookThread)
+        end
+    end
 })
