@@ -1,0 +1,126 @@
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+local Window = WindUI:CreateWindow({
+    Title = "Restaurant Tycoon 3",
+    Icon = "door-open",
+    Author = "Made By Minh",
+    Folder = "RT3Minh",
+    Size = UDim2.fromOffset(490, 320),
+    Transparent = true,
+    Theme = "Dark",
+    SideBarWidth = 190,
+    Background = "", -- rbxassetid only
+    BackgroundImageTransparency = 0.42,
+    HideSearchBar = true,
+    ScrollBarEnabled = false,
+    User = {
+        Enabled = false,
+        Anonymous = true,
+        Callback = function()
+            print("clicked")
+        end,
+    },
+})
+
+Window:EditOpenButton({
+    Title = "RT3",
+    Icon = "Box",
+    CornerRadius = UDim.new(0,10),
+    StrokeThickness = 1.75,
+    Color = ColorSequence.new( -- gradient
+        Color3.fromHex("6FA8DC"), 
+        Color3.fromHex("CFE2F3")
+    ),
+    OnlyMobile = false,
+    Enabled = true,
+    Draggable = true,
+})
+
+-----------------------------------------------------------Tabs--------------------------------------------------------------
+
+local MainTab = Window:Tab({
+    Title = "Main",
+    Icon = "house",
+    Desc = "Main Section",
+    Locked = false,
+})
+
+Window:SelectTab(1) -- Number of Tab
+
+
+----------------------------------------------------------Main------------------------------------------------------------------
+
+local takeOrderRunning = false
+local takeOrderThread = nil
+
+local Toggle = MainTab:Toggle({
+    Title = "Auto Take Order",
+    Desc = "Tự động nhận order từ khách",
+    Icon = "bird",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        takeOrderRunning = state
+        if takeOrderRunning then
+            takeOrderThread = task.spawn(function()
+                while takeOrderRunning do
+                    for _, v in ipairs(game.Players.LocalPlayer.PlayerGui:GetDescendants()) do
+                        if v:IsA("ImageLabel") and v.Parent.Parent.Parent.Name == "CustomerSpeechUI" and v.Parent.Parent.Size == UDim2.new(1, 0, 1, 0) then
+                            local group = v.Parent.Parent.Parent.Adornee.Parent.Parent.Name
+                            local customer = v.Parent.Parent.Parent.Adornee.Parent.Name
+                            game.ReplicatedStorage.Events.Restaurant.TaskCompleted:FireServer({
+                                GroupId = tostring(group),
+                                Tycoon = tycoon,
+                                Name = "TakeOrder",
+                                CustomerId = tostring(customer)
+                            })
+                        end
+                    end
+                    task.wait(0.25)
+                end
+            end)
+        elseif takeOrderThread then
+            task.cancel(takeOrderThread)
+        end
+    end
+})
+
+local cookRunning = false
+local cookThread = nil
+
+local Toggle = MainTab:Toggle({
+    Title = "Auto Cook",
+    Desc = "Tự động nấu ăn bằng Oven",
+    Icon = "flame",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        cookRunning = state
+        if cookRunning then
+            -- Tìm Oven
+            local oven = nil
+            for _, v in pairs(tycoon:WaitForChild("Items"):WaitForChild("Surface"):GetDescendants()) do
+                if v.Name:find("Oven") then
+                    oven = v.Parent
+                    break
+                end
+            end
+
+            if not oven then
+                game.Players.LocalPlayer:Kick("Không tìm thấy Oven")
+                return
+            end
+
+            cookThread = task.spawn(function()
+                while cookRunning do
+                    game.ReplicatedStorage:WaitForChild("Events"):WaitForChild("Cook"):WaitForChild("CookInputRequested"):FireServer("Interact", oven, "Oven")
+                    task.wait(0.25)
+                end
+            end)
+        elseif cookThread then
+            task.cancel(cookThread)
+        end
+    end
+})
+
+
