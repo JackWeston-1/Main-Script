@@ -85,42 +85,72 @@ local Toggle = MainTab:Toggle({
     end
 })
 
-local cookRunning = false
-local cookThread = nil
+local autoDoOrderThread = nil
 
 local Toggle = MainTab:Toggle({
-    Title = "Auto Cook",
-    Desc = "Tự động nấu ăn bằng Oven",
-    Icon = "flame",
+    Title = "Auto Do Order",
+    Desc = "Tự động nhận đơn ở quầy",
+    Icon = "clipboard",
     Type = "Checkbox",
     Default = false,
     Callback = function(state)
-        cookRunning = state
-        if cookRunning then
-            -- Tìm Oven
-            local oven = nil
-            for _, v in pairs(tycoon:WaitForChild("Items"):WaitForChild("Surface"):GetDescendants()) do
-                if v.Name:find("Oven") then
-                    oven = v.Parent
-                    break
-                end
-            end
-
-            if not oven then
-                game.Players.LocalPlayer:Kick("Không tìm thấy Oven")
-                return
-            end
-
-            cookThread = task.spawn(function()
-                while cookRunning do
-                    game.ReplicatedStorage:WaitForChild("Events"):WaitForChild("Cook"):WaitForChild("CookInputRequested"):FireServer("Interact", oven, "Oven")
-                    task.wait(0.25)
+        settings.auto_do_order = state
+        if state then
+            autoDoOrderThread = task.spawn(function()
+                while settings.auto_do_order do
+                    for _, v in temp:GetDescendants() do
+                        if v:IsA("ProximityPrompt") then
+                            fireproximityprompt(v)
+                            task.wait()
+                        end
+                    end
+                    task.wait(settings.toggle_delay)
                 end
             end)
-        elseif cookThread then
-            task.cancel(cookThread)
+        elseif autoDoOrderThread then
+            task.cancel(autoDoOrderThread)
         end
     end
 })
 
+local autoCookThread = nil
+
+local Toggle = MainTab:Toggle({
+    Title = "Auto Cook",
+    Desc = "Tự động nấu ăn",
+    Icon = "flame",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state)
+        settings.auto_cook = state
+        if state then
+            autoCookThread = task.spawn(function()
+                local oven = nil
+                for _, v in surface:GetDescendants() do
+                    if v.Name:find("Oven") then
+                        oven = v.Parent
+                        break
+                    end
+                end
+                while settings.auto_cook do
+                    if oven then
+                        local cookEvents = replicated_storage:FindFirstChild("Events")
+                        if cookEvents then
+                            local cookModule = cookEvents:FindFirstChild("Cook")
+                            if cookModule then
+                                local cookInput = cookModule:FindFirstChild("CookInputRequested")
+                                if cookInput then
+                                    cookInput:FireServer("Interact", oven, "Oven")
+                                end
+                            end
+                        end
+                    end
+                    task.wait(settings.toggle_delay)
+                end
+            end)
+        elseif autoCookThread then
+            task.cancel(autoCookThread)
+        end
+    end
+})
 
