@@ -68,9 +68,9 @@ if tycoon then
 	surface = tycoon:WaitForChild("Items"):WaitForChild("Surface")
 end
 
-
-
-
+-----------------------------
+-- AUTO TAKE ORDER
+-----------------------------
 local takeOrderRunning = false
 local takeOrderThread = nil
 
@@ -109,10 +109,9 @@ local ToggleTakeOrder = MainTab:Toggle({
 	end
 })
 
-
-
-
-
+-----------------------------
+-- AUTO DO ORDER
+-----------------------------
 local orderSettings = {
 	auto_do_order = false,
 	toggle_delay = 0.25,
@@ -148,10 +147,9 @@ local ToggleDoOrder = MainTab:Toggle({
 	end
 })
 
-
-
-
-
+-----------------------------
+-- AUTO COOK
+-----------------------------
 local cookSettings = {
 	auto_cook = false,
 	toggle_delay = 0.25,
