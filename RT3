@@ -49,6 +49,92 @@ Window:SelectTab(1) -- Number of Tab
 
 
 ----------------------------------------------------------Main------------------------------------------------------------------
+local ToggleTakeOrder = MainTab:Toggle({
+	Title = "Auto Take Order",
+	Desc = "Tự động nhận order từ khách",
+	Icon = "bird",
+	Type = "Checkbox",
+	Default = false,
+	Callback = function(state)
+		local players = game:GetService("Players")
+		local replicated_storage = game:GetService("ReplicatedStorage")
+		local workspace = game:GetService("Workspace")
+		local local_player = players.LocalPlayer
+
+		local tycoon = nil
+		for _, v in workspace:FindFirstChild("Tycoons"):GetDescendants() do
+			if v.Name == "Player" and v.Value == local_player then
+				tycoon = v.Parent
+				break
+			end
+		end
+
+		local takeOrderRunning = state
+		local takeOrderThread
+
+		if takeOrderRunning and tycoon then
+			takeOrderThread = task.spawn(function()
+				while takeOrderRunning do
+					for _, v in ipairs(local_player.PlayerGui:GetDescendants()) do
+						if v:IsA("TextLabel") and v.Text:lower():find("order") and v.Parent.Parent.Parent.Name == "CustomerSpeechUI" then
+							local adornee = v.Parent.Parent.Parent:FindFirstChild("Adornee")
+							if adornee and adornee.Parent and adornee.Parent.Parent then
+								local group = adornee.Parent.Parent.Name
+								local customer = adornee.Parent.Name
+								replicated_storage:WaitForChild("Events"):WaitForChild("Restaurant"):WaitForChild("TaskCompleted"):FireServer({
+									GroupId = tostring(group),
+									Tycoon = tycoon,
+									Name = "TakeOrder",
+									CustomerId = tostring(customer)
+								})
+							end
+						end
+					end
+					task.wait(0.5)
+				end
+			end)
+		elseif takeOrderThread then
+			task.cancel(takeOrderThread)
+		end
+	end
+})
+
+
+
+
+local ToggleDoOrder = MainTab:Toggle({
+	Title = "Auto Do Order",
+	Desc = "Tự động nhận đơn ở quầy",
+	Icon = "clipboard",
+	Type = "Checkbox",
+	Default = false,
+	Callback = function(state)
+		local temp = workspace:FindFirstChild("Temp")
+		local delay = 0.25
+		local autoDoOrderThread
+
+		if state and temp then
+			autoDoOrderThread = task.spawn(function()
+				while state do
+					for _, v in temp:GetDescendants() do
+						if v:IsA("ProximityPrompt") then
+							fireproximityprompt(v)
+							task.wait()
+						end
+					end
+					task.wait(delay)
+				end
+			end)
+		elseif autoDoOrderThread then
+			task.cancel(autoDoOrderThread)
+		end
+	end
+})
+
+
+
+
+
 local ToggleCook = MainTab:Toggle({
 	Title = "Auto Cook",
 	Desc = "Tự động nấu ăn",
