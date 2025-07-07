@@ -202,7 +202,7 @@ local seedList = {
 
 local gearList = {
     "Watering Can", "Trowel", "Recall Wrench", "Basic Sprinkler",
-    "Advanced Sprinkler", "Godly Sprinkler", "Magnifying Glass" "Tanning Mirror",
+    "Advanced Sprinkler", "Godly Sprinkler", "Magnifying Glass", "Tanning Mirror",
     "Master Sprinkler", "Favorite Tool", "Cleaning Spray", "Havest Tool", "Friendship Pot"
 }
 
