@@ -1,16 +1,5 @@
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
-WindUI:AddTheme({
-    Name = "BlueWhite",
-    Accent = "#3b82f6",
-    Outline = "#FFFFFF",
-    Text = "#FFFFFF",
-    Placeholder = "#999999",
-    Background = "#1e3a8a",
-    Button = "#2986cc",
-    Icon = "#FFFFFF"
-})
-
 
 local Window = WindUI:CreateWindow({
     Title = "Grow a Garden [Custom Version]",
@@ -20,7 +9,7 @@ local Window = WindUI:CreateWindow({
     Size = UDim2.fromOffset(490, 320),
     Transparent = true,
     Outline = true,
-    Theme = "BlueWhite",
+    Theme = "Dark",
     SideBarWidth = 190,
     Background = "rbxassetid://73209523764649", -- rbxassetid only
     BackgroundImageTransparency = 0.42,
@@ -35,7 +24,7 @@ local Window = WindUI:CreateWindow({
     },
 })
 
-WindUI:SetTheme("BlueWhite")
+WindUI:SetTheme("Dark")
 
 
 Window:EditOpenButton({
@@ -203,15 +192,17 @@ local Section = ShopTab:Section({
 
 
 -- Danh sách hạt giống & gear
+
 local seedList = {
-    "Carrot", "Strawberry", "Blueberry", "Cauliflower", "Watermelon", "Green Apple", "Avocado",
-    "Banana", "Pineapple", "Kiwi", "Bell Pepper", "Prickly Pear", "Loquat",
-    "Feijoa", "Sugar Apple"
+    "Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato",
+    "Corn", "Daffodil", "Watermelon", "Pumpkin", "Apple", "Bamboo",
+    "Coconut", "Cactus", "Dragon Fruit", "Mango", "Grape", "Mushroom",
+    "Pepper", "Cacao", "Beanstalk", "Ember Lily", "Sugar Apple", "Burning Bud"
 }
 
 local gearList = {
     "Watering Can", "Trowel", "Recall Wrench", "Basic Sprinkler",
-    "Advanced Sprinkler", "Godly Sprinkler", "Tanning Mirror",
+    "Advanced Sprinkler", "Godly Sprinkler", "Magnifying Glass" "Tanning Mirror",
     "Master Sprinkler", "Favorite Tool", "Cleaning Spray", "Havest Tool", "Friendship Pot"
 }
 
