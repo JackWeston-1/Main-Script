@@ -1,0 +1,652 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local ToggleUI = Instance.new("ImageButton")
+local UICorner = Instance.new("UICorner")
+local Main = Instance.new("Frame")
+local Setting = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local ServerFrame = Instance.new("Frame")
+local rejoin = Instance.new("TextButton")
+local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+local UICorner_3 = Instance.new("UICorner")
+local Serverhop = Instance.new("TextButton")
+local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
+local UICorner_4 = Instance.new("UICorner")
+local HopSmall = Instance.new("TextButton")
+local UITextSizeConstraint_3 = Instance.new("UITextSizeConstraint")
+local UICorner_5 = Instance.new("UICorner")
+local ServerScript = Instance.new("TextButton")
+local UITextSizeConstraint_4 = Instance.new("UITextSizeConstraint")
+local UICorner_6 = Instance.new("UICorner")
+local Server = Instance.new("TextButton")
+local UICorner_7 = Instance.new("UICorner")
+local Scripts = Instance.new("TextButton")
+local UICorner_8 = Instance.new("UICorner")
+local ScriptsFrame = Instance.new("Frame")
+local Main2 = Instance.new("Frame")
+local UICorner_9 = Instance.new("UICorner")
+local SettingButton = Instance.new("ImageButton")
+local EditorButton = Instance.new("ImageButton")
+local NameFrame = Instance.new("Frame")
+local Name = Instance.new("TextBox")
+local UITextSizeConstraint_5 = Instance.new("UITextSizeConstraint")
+local ImageLabel = Instance.new("ImageLabel")
+local CloseUI = Instance.new("TextButton")
+local UITextSizeConstraint_6 = Instance.new("UITextSizeConstraint")
+local Editor = Instance.new("Frame")
+local UICorner_10 = Instance.new("UICorner")
+local LineScroll = Instance.new("ScrollingFrame")
+local LineNumbers = Instance.new("TextLabel")
+local TextScroll = Instance.new("ScrollingFrame")
+local EditorBox = Instance.new("TextBox")
+local UITextSizeConstraint_7 = Instance.new("UITextSizeConstraint")
+local ExecuteButton = Instance.new("TextButton")
+local UITextSizeConstraint_8 = Instance.new("UITextSizeConstraint")
+local ClearButton = Instance.new("TextButton")
+local UITextSizeConstraint_9 = Instance.new("UITextSizeConstraint")
+local CopyButton = Instance.new("TextButton")
+local UITextSizeConstraint_10 = Instance.new("UITextSizeConstraint")
+local PasteButton = Instance.new("TextButton")
+local UITextSizeConstraint_11 = Instance.new("UITextSizeConstraint")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+ToggleUI.Name = "ToggleUI"
+ToggleUI.Parent = ScreenGui
+ToggleUI.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleUI.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleUI.BorderSizePixel = 0
+ToggleUI.Position = UDim2.new(0.121881001, 0, 0.18525897, 0)
+ToggleUI.Size = UDim2.new(0.0575815737, 0, 0.119521916, 0)
+ToggleUI.Image = "rbxassetid://73735368929204"
+
+UICorner.CornerRadius = UDim.new(0, 9)
+UICorner.Parent = ToggleUI
+
+Main.Name = "Main"
+Main.Parent = ScreenGui
+Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Main.BackgroundTransparency = 1.000
+Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Main.BorderSizePixel = 0
+Main.Size = UDim2.new(1, 0, 1, 0)
+Main.Visible = false
+
+Setting.Name = "Setting"
+Setting.Parent = Main
+Setting.BackgroundColor3 = Color3.fromRGB(83, 83, 83)
+Setting.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Setting.BorderSizePixel = 0
+Setting.Position = UDim2.new(0.176583499, 0, 0.12350598, 0)
+Setting.Size = UDim2.new(0.740882933, 0, 0.62948209, 0)
+Setting.Visible = false
+
+UICorner_2.Parent = Setting
+
+ServerFrame.Name = "ServerFrame"
+ServerFrame.Parent = Setting
+ServerFrame.BackgroundColor3 = Color3.fromRGB(112, 112, 112)
+ServerFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ServerFrame.BorderSizePixel = 0
+ServerFrame.Position = UDim2.new(0.0177124497, 0, 0.110939749, 0)
+ServerFrame.Size = UDim2.new(0.963730574, 0, 0.844936728, 0)
+
+rejoin.Name = "rejoin"
+rejoin.Parent = ServerFrame
+rejoin.BackgroundColor3 = Color3.fromRGB(52, 52, 52)
+rejoin.BorderColor3 = Color3.fromRGB(0, 0, 0)
+rejoin.BorderSizePixel = 0
+rejoin.Position = UDim2.new(0.0161290318, 0, 0.0449438207, 0)
+rejoin.Size = UDim2.new(0.17473118, 0, 0.187265918, 0)
+rejoin.Font = Enum.Font.SourceSans
+rejoin.Text = "Rejoin"
+rejoin.TextColor3 = Color3.fromRGB(255, 255, 255)
+rejoin.TextScaled = true
+rejoin.TextSize = 14.000
+rejoin.TextWrapped = true
+
+UITextSizeConstraint.Parent = rejoin
+UITextSizeConstraint.MaxTextSize = 14
+
+UICorner_3.Parent = rejoin
+
+Serverhop.Name = "Serverhop"
+Serverhop.Parent = ServerFrame
+Serverhop.BackgroundColor3 = Color3.fromRGB(52, 52, 52)
+Serverhop.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Serverhop.BorderSizePixel = 0
+Serverhop.Position = UDim2.new(0.0161290318, 0, 0.258426964, 0)
+Serverhop.Size = UDim2.new(0.17473118, 0, 0.187265918, 0)
+Serverhop.Font = Enum.Font.SourceSans
+Serverhop.Text = "Serverhop"
+Serverhop.TextColor3 = Color3.fromRGB(255, 255, 255)
+Serverhop.TextScaled = true
+Serverhop.TextSize = 14.000
+Serverhop.TextWrapped = true
+
+UITextSizeConstraint_2.Parent = Serverhop
+UITextSizeConstraint_2.MaxTextSize = 14
+
+UICorner_4.Parent = Serverhop
+
+HopSmall.Name = "HopSmall"
+HopSmall.Parent = ServerFrame
+HopSmall.BackgroundColor3 = Color3.fromRGB(52, 52, 52)
+HopSmall.BorderColor3 = Color3.fromRGB(0, 0, 0)
+HopSmall.BorderSizePixel = 0
+HopSmall.Position = UDim2.new(0.0161290318, 0, 0.479400754, 0)
+HopSmall.Size = UDim2.new(0.17473118, 0, 0.187265918, 0)
+HopSmall.Font = Enum.Font.SourceSans
+HopSmall.Text = "HopSmallServer"
+HopSmall.TextColor3 = Color3.fromRGB(255, 255, 255)
+HopSmall.TextScaled = true
+HopSmall.TextSize = 14.000
+HopSmall.TextWrapped = true
+
+UITextSizeConstraint_3.Parent = HopSmall
+UITextSizeConstraint_3.MaxTextSize = 14
+
+UICorner_5.Parent = HopSmall
+
+ServerScript.Name = "ServerScript"
+ServerScript.Parent = ServerFrame
+ServerScript.BackgroundColor3 = Color3.fromRGB(52, 52, 52)
+ServerScript.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ServerScript.BorderSizePixel = 0
+ServerScript.Position = UDim2.new(0.0161290318, 0, 0.700374544, 0)
+ServerScript.Size = UDim2.new(0.17473118, 0, 0.187265918, 0)
+ServerScript.Font = Enum.Font.SourceSans
+ServerScript.Text = "ServerScript"
+ServerScript.TextColor3 = Color3.fromRGB(255, 255, 255)
+ServerScript.TextScaled = true
+ServerScript.TextSize = 14.000
+ServerScript.TextWrapped = true
+
+UITextSizeConstraint_4.Parent = ServerScript
+UITextSizeConstraint_4.MaxTextSize = 14
+
+UICorner_6.Parent = ServerScript
+
+Server.Name = "Server"
+Server.Parent = Setting
+Server.BackgroundColor3 = Color3.fromRGB(189, 189, 189)
+Server.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Server.BorderSizePixel = 0
+Server.Position = UDim2.new(0.0194300525, 0, 0.0221518986, 0)
+Server.Size = UDim2.new(0.116580307, 0, 0.0696202517, 0)
+Server.Font = Enum.Font.SourceSans
+Server.Text = "Server"
+Server.TextColor3 = Color3.fromRGB(0, 0, 0)
+Server.TextSize = 14.000
+
+UICorner_7.CornerRadius = UDim.new(0, 4)
+UICorner_7.Parent = Server
+
+Scripts.Name = "Scripts"
+Scripts.Parent = Setting
+Scripts.BackgroundColor3 = Color3.fromRGB(189, 189, 189)
+Scripts.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Scripts.BorderSizePixel = 0
+Scripts.Position = UDim2.new(0.151554406, 0, 0.0221518986, 0)
+Scripts.Size = UDim2.new(0.116580307, 0, 0.0696202517, 0)
+Scripts.Font = Enum.Font.SourceSans
+Scripts.Text = "Scripts"
+Scripts.TextColor3 = Color3.fromRGB(0, 0, 0)
+Scripts.TextSize = 14.000
+
+UICorner_8.CornerRadius = UDim.new(0, 4)
+UICorner_8.Parent = Scripts
+
+ScriptsFrame.Name = "ScriptsFrame"
+ScriptsFrame.Parent = Setting
+ScriptsFrame.BackgroundColor3 = Color3.fromRGB(112, 112, 112)
+ScriptsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ScriptsFrame.BorderSizePixel = 0
+ScriptsFrame.Position = UDim2.new(0.0194300525, 0, 0.113924049, 0)
+ScriptsFrame.Size = UDim2.new(0.963730574, 0, 0.844936728, 0)
+ScriptsFrame.Visible = false
+
+Main2.Name = "Main2"
+Main2.Parent = Main
+Main2.BackgroundColor3 = Color3.fromRGB(71, 71, 71)
+Main2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Main2.BorderSizePixel = 0
+Main2.Position = UDim2.new(0.0651652813, 0, 0.12350598, 0)
+Main2.Size = UDim2.new(0.0882917494, 0, 0.62948209, 0)
+
+UICorner_9.Parent = Main2
+
+SettingButton.Name = "SettingButton"
+SettingButton.Parent = Main2
+SettingButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SettingButton.BackgroundTransparency = 1.000
+SettingButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SettingButton.BorderSizePixel = 0
+SettingButton.Position = UDim2.new(0.0952380672, 0, 0.531645596, 0)
+SettingButton.Size = UDim2.new(0.809523821, 0, 0.215189874, 0)
+SettingButton.Image = "rbxassetid://107010726849171"
+
+EditorButton.Name = "EditorButton"
+EditorButton.Parent = Main2
+EditorButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+EditorButton.BackgroundTransparency = 1.000
+EditorButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+EditorButton.BorderSizePixel = 0
+EditorButton.Position = UDim2.new(0.0952380672, 0, 0.265822798, 0)
+EditorButton.Size = UDim2.new(0.809523821, 0, 0.215189874, 0)
+EditorButton.Image = "rbxassetid://104251778640941"
+
+NameFrame.Name = "NameFrame"
+NameFrame.Parent = Main2
+NameFrame.BackgroundColor3 = Color3.fromRGB(112, 112, 112)
+NameFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+NameFrame.BorderSizePixel = 0
+NameFrame.Position = UDim2.new(0, 0, 0.0411392413, 0)
+NameFrame.Size = UDim2.new(1, 0, 0.164556965, 0)
+
+Name.Name = "Name"
+Name.Parent = NameFrame
+Name.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Name.BackgroundTransparency = 1.000
+Name.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Name.BorderSizePixel = 0
+Name.Position = UDim2.new(0.478260875, 0, 0.0189872161, 0)
+Name.Size = UDim2.new(0.470035046, 0, 0.980769217, 0)
+Name.ClearTextOnFocus = false
+Name.Font = Enum.Font.SourceSans
+Name.Text = "Cat X"
+Name.TextColor3 = Color3.fromRGB(255, 255, 255)
+Name.TextScaled = true
+Name.TextSize = 20.000
+Name.TextWrapped = true
+
+UITextSizeConstraint_5.Parent = Name
+UITextSizeConstraint_5.MaxTextSize = 15
+
+ImageLabel.Parent = NameFrame
+ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ImageLabel.BorderSizePixel = 0
+ImageLabel.Position = UDim2.new(0.0952380672, 0, 0.15384616, 0)
+ImageLabel.Size = UDim2.new(0.383022815, 0, 0.692307711, 0)
+ImageLabel.Image = "rbxassetid://73735368929204"
+
+CloseUI.Name = "CloseUI"
+CloseUI.Parent = Main2
+CloseUI.BackgroundColor3 = Color3.fromRGB(112, 112, 112)
+CloseUI.BorderColor3 = Color3.fromRGB(0, 0, 0)
+CloseUI.BorderSizePixel = 0
+CloseUI.Position = UDim2.new(0.0869565234, 0, 0.873417735, 0)
+CloseUI.Size = UDim2.new(0.815217376, 0, 0.091772154, 0)
+CloseUI.Font = Enum.Font.SourceSans
+CloseUI.Text = "CLOSE"
+CloseUI.TextColor3 = Color3.fromRGB(0, 0, 0)
+CloseUI.TextScaled = true
+CloseUI.TextSize = 14.000
+CloseUI.TextWrapped = true
+
+UITextSizeConstraint_6.Parent = CloseUI
+UITextSizeConstraint_6.MaxTextSize = 14
+
+Editor.Name = "Editor"
+Editor.Parent = Main
+Editor.BackgroundColor3 = Color3.fromRGB(83, 83, 83)
+Editor.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Editor.BorderSizePixel = 0
+Editor.Position = UDim2.new(0.177418947, 0, 0.12350598, 0)
+Editor.Size = UDim2.new(0.740882933, 0, 0.62948209, 0)
+Editor.Visible = false
+
+UICorner_10.Parent = Editor
+
+LineScroll.Name = "LineScroll"
+LineScroll.Parent = Editor
+LineScroll.Active = true
+LineScroll.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+LineScroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LineScroll.BorderSizePixel = 0
+LineScroll.Position = UDim2.new(0.0518134721, 0, 0.0949367061, 0)
+LineScroll.Size = UDim2.new(0.0518134721, 0, 0.66772151, 0)
+LineScroll.ScrollBarThickness = 0
+LineScroll.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Left
+
+LineNumbers.Name = "LineNumbers"
+LineNumbers.Parent = LineScroll
+LineNumbers.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LineNumbers.BackgroundTransparency = 1.000
+LineNumbers.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LineNumbers.BorderSizePixel = 0
+LineNumbers.ClipsDescendants = true
+LineNumbers.Size = UDim2.new(0, 40, 0, 50)
+LineNumbers.Font = Enum.Font.SourceSans
+LineNumbers.Text = "1"
+LineNumbers.TextColor3 = Color3.fromRGB(255, 255, 255)
+LineNumbers.TextSize = 14.000
+LineNumbers.TextYAlignment = Enum.TextYAlignment.Top
+
+TextScroll.Name = "TextScroll"
+TextScroll.Parent = Editor
+TextScroll.Active = true
+TextScroll.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TextScroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextScroll.BorderSizePixel = 0
+TextScroll.Position = UDim2.new(0.115284897, 0, 0.0981012657, 0)
+TextScroll.Size = UDim2.new(0.832901537, 0, 0.66455698, 0)
+TextScroll.ScrollBarThickness = 6
+
+EditorBox.Name = "EditorBox"
+EditorBox.Parent = TextScroll
+EditorBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+EditorBox.BackgroundTransparency = 1.000
+EditorBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+EditorBox.BorderSizePixel = 0
+EditorBox.Position = UDim2.new(0, 0, 3.63304515e-08, 0)
+EditorBox.Size = UDim2.new(0, 620, 0, 209)
+EditorBox.ClearTextOnFocus = false
+EditorBox.Font = Enum.Font.SourceSans
+EditorBox.MultiLine = true
+EditorBox.Text = ""
+EditorBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+EditorBox.TextSize = 14.000
+EditorBox.TextXAlignment = Enum.TextXAlignment.Left
+EditorBox.TextYAlignment = Enum.TextYAlignment.Top
+
+UITextSizeConstraint_7.Parent = EditorBox
+UITextSizeConstraint_7.MaxTextSize = 14
+
+ExecuteButton.Name = "ExecuteButton"
+ExecuteButton.Parent = Editor
+ExecuteButton.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+ExecuteButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ExecuteButton.BorderSizePixel = 0
+ExecuteButton.Position = UDim2.new(0.0518134721, 0, 0.800632894, 0)
+ExecuteButton.Size = UDim2.new(0.196891189, 0, 0.158227846, 0)
+ExecuteButton.Font = Enum.Font.Roboto
+ExecuteButton.Text = "EXECUTE"
+ExecuteButton.TextColor3 = Color3.fromRGB(190, 190, 190)
+ExecuteButton.TextScaled = true
+ExecuteButton.TextSize = 20.000
+ExecuteButton.TextStrokeTransparency = 0.990
+ExecuteButton.TextWrapped = true
+
+UITextSizeConstraint_8.Parent = ExecuteButton
+UITextSizeConstraint_8.MaxTextSize = 20
+
+ClearButton.Name = "ClearButton"
+ClearButton.Parent = Editor
+ClearButton.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+ClearButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ClearButton.BorderSizePixel = 0
+ClearButton.Position = UDim2.new(0.287564754, 0, 0.800632894, 0)
+ClearButton.Size = UDim2.new(0.196891189, 0, 0.158227846, 0)
+ClearButton.Font = Enum.Font.Roboto
+ClearButton.Text = "CLEAR"
+ClearButton.TextColor3 = Color3.fromRGB(190, 190, 190)
+ClearButton.TextScaled = true
+ClearButton.TextSize = 20.000
+ClearButton.TextStrokeTransparency = 0.990
+ClearButton.TextWrapped = true
+
+UITextSizeConstraint_9.Parent = ClearButton
+UITextSizeConstraint_9.MaxTextSize = 20
+
+CopyButton.Name = "CopyButton"
+CopyButton.Parent = Editor
+CopyButton.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+CopyButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+CopyButton.BorderSizePixel = 0
+CopyButton.Position = UDim2.new(0.522020698, 0, 0.800632894, 0)
+CopyButton.Size = UDim2.new(0.196891189, 0, 0.158227846, 0)
+CopyButton.Font = Enum.Font.Roboto
+CopyButton.Text = "COPY"
+CopyButton.TextColor3 = Color3.fromRGB(190, 190, 190)
+CopyButton.TextScaled = true
+CopyButton.TextSize = 20.000
+CopyButton.TextStrokeTransparency = 0.990
+CopyButton.TextWrapped = true
+
+UITextSizeConstraint_10.Parent = CopyButton
+UITextSizeConstraint_10.MaxTextSize = 20
+
+PasteButton.Name = "PasteButton"
+PasteButton.Parent = Editor
+PasteButton.BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+PasteButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+PasteButton.BorderSizePixel = 0
+PasteButton.Position = UDim2.new(0.75, 0, 0.800632894, 0)
+PasteButton.Size = UDim2.new(0.196891189, 0, 0.158227846, 0)
+PasteButton.Font = Enum.Font.Roboto
+PasteButton.Text = "PASTE"
+PasteButton.TextColor3 = Color3.fromRGB(190, 190, 190)
+PasteButton.TextScaled = true
+PasteButton.TextSize = 20.000
+PasteButton.TextStrokeTransparency = 0.990
+PasteButton.TextWrapped = true
+
+UITextSizeConstraint_11.Parent = PasteButton
+UITextSizeConstraint_11.MaxTextSize = 20
+
+-- Scripts:
+
+local function TQYWRT_fake_script() -- ToggleUI.LocalScript 
+	local script = Instance.new('LocalScript', ToggleUI)
+
+	local button = script.Parent
+	local gui = button.Parent
+	local mainFrame = gui:WaitForChild("Main")
+	
+	button.MouseButton1Click:Connect(function()
+		mainFrame.Visible = true
+		button.Visible = false
+	end)
+	
+end
+coroutine.wrap(TQYWRT_fake_script)()
+local function HLXP_fake_script() -- ToggleUI.LocalScript 
+	local script = Instance.new('LocalScript', ToggleUI)
+
+	script.Parent.Active = true
+	script.Parent.Draggable = true
+end
+coroutine.wrap(HLXP_fake_script)()
+local function MHMKPW_fake_script() -- Server.LocalScript 
+	local script = Instance.new('LocalScript', Server)
+
+	local button = script.Parent
+	local setting = button.Parent
+	local scriptsFrame = setting:WaitForChild("ScriptsFrame")
+	local serverFrame = setting:WaitForChild("ServerFrame")
+	
+	button.MouseButton1Click:Connect(function()
+		serverFrame.Visible = true
+		scriptsFrame.Visible = false
+	end)
+	
+end
+coroutine.wrap(MHMKPW_fake_script)()
+local function PTYRSST_fake_script() -- Scripts.LocalScript 
+	local script = Instance.new('LocalScript', Scripts)
+
+	local button = script.Parent
+	local setting = button.Parent
+	local scriptsFrame = setting:WaitForChild("ScriptsFrame")
+	local serverFrame = setting:WaitForChild("ServerFrame")
+	
+	button.MouseButton1Click:Connect(function()
+		scriptsFrame.Visible = true
+		serverFrame.Visible = false
+	end)
+	
+end
+coroutine.wrap(PTYRSST_fake_script)()
+local function THMQQTJ_fake_script() -- SettingButton.LocalScript 
+	local script = Instance.new('LocalScript', SettingButton)
+
+	local button = script.Parent
+	local gui = button.Parent.Parent
+	local settingTab = gui:WaitForChild("Setting")
+	local editorTab = gui:WaitForChild("Editor") -- nếu bạn có nhiều tab
+	
+	button.MouseButton1Click:Connect(function()
+		local isVisible = not settingTab.Visible
+		settingTab.Visible = isVisible
+		editorTab.Visible = false -- tắt tab khác
+	end)
+	
+end
+coroutine.wrap(THMQQTJ_fake_script)()
+local function BHKQ_fake_script() -- EditorButton.LocalScript 
+	local script = Instance.new('LocalScript', EditorButton)
+
+	local button = script.Parent
+	local gui = button.Parent.Parent
+	local editorTab = gui:WaitForChild("Editor")
+	local settingTab = gui:WaitForChild("Setting")
+	
+	button.MouseButton1Click:Connect(function()
+		local isVisible = not editorTab.Visible
+		editorTab.Visible = isVisible
+		settingTab.Visible = false -- tắt tab Setting nếu cần
+	end)
+	
+end
+coroutine.wrap(BHKQ_fake_script)()
+local function DGVUO_fake_script() -- CloseUI.LocalScript 
+	local script = Instance.new('LocalScript', CloseUI)
+
+	local button = script.Parent
+	local main2 = button.Parent
+	local main = main2.Parent
+	local gui = main.Parent
+	
+	local toggleButton = gui:WaitForChild("ToggleUI")
+	
+	button.MouseButton1Click:Connect(function()
+		main.Visible = false
+		toggleButton.Visible = true
+	end)
+	
+end
+coroutine.wrap(DGVUO_fake_script)()
+local function RGVFIY_fake_script() -- Editor.LocalScript 
+	local script = Instance.new('LocalScript', Editor)
+
+	local editorBox = script.Parent.TextScroll.EditorBox
+	local lineNumbers = script.Parent.LineScroll.LineNumbers -- giờ là TextLabel!
+	local textScroll = script.Parent.TextScroll
+	local lineScroll = script.Parent.LineScroll
+	
+	-- Cố định chiều cao 1 dòng
+	local lineHeight = editorBox.TextSize + 4 -- bạn có thể chỉnh số này nếu cần
+	
+	local function updateLines()
+		local lines = select(2, editorBox.Text:gsub("\n", "\n")) + 1
+	
+		local text = ""
+		for i = 1, lines do
+			text ..= tostring(i) .. "\n"
+		end
+		lineNumbers.Text = text
+	
+		local height = lines * lineHeight
+	
+		-- Resize content đúng số dòng
+		editorBox.Size = UDim2.new(1, 0, 0, height)
+		lineNumbers.Size = UDim2.new(1, 0, 0, height)
+	
+		textScroll.CanvasSize = UDim2.new(0, 0, 0, height)
+		lineScroll.CanvasSize = UDim2.new(0, 0, 0, height)
+	end
+	
+	editorBox:GetPropertyChangedSignal("Text"):Connect(updateLines)
+	
+	textScroll:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
+		lineScroll.CanvasPosition = textScroll.CanvasPosition
+	end)
+	
+	updateLines()
+	
+end
+coroutine.wrap(RGVFIY_fake_script)()
+local function OLQY_fake_script() -- ExecuteButton.LocalScript 
+	local script = Instance.new('LocalScript', ExecuteButton)
+
+	local editorBox = script.Parent.Parent:WaitForChild("TextScroll"):WaitForChild("EditorBox")
+	
+	script.Parent.MouseButton1Click:Connect(function()
+		local code = editorBox.Text
+		if code and code ~= "" then
+			local func, err = loadstring(code)
+			if func then
+				local success, result = pcall(func)
+				if success then
+					print("✅ Executed successfully")
+				else
+					warn("❌ Runtime error:", result)
+				end
+			else
+				warn("❌ Compile error:", err)
+			end
+		else
+			warn("⚠️ Nothing to execute.")
+		end
+	end)
+	
+end
+coroutine.wrap(OLQY_fake_script)()
+local function ANXQJQ_fake_script() -- ClearButton.LocalScript 
+	local script = Instance.new('LocalScript', ClearButton)
+
+	local editorBox = script.Parent.Parent:WaitForChild("TextScroll"):WaitForChild("EditorBox")
+	
+	script.Parent.MouseButton1Click:Connect(function()
+		editorBox.Text = ""
+	end)
+	
+end
+coroutine.wrap(ANXQJQ_fake_script)()
+local function ZAUG_fake_script() -- CopyButton.LocalScript 
+	local script = Instance.new('LocalScript', CopyButton)
+
+	local editorBox = script.Parent.Parent:WaitForChild("TextScroll"):WaitForChild("EditorBox")
+	
+	script.Parent.MouseButton1Click:Connect(function()
+		if setclipboard then
+			setclipboard(editorBox.Text)
+			print("📋 Copied to clipboard.")
+		else
+			warn("❌ Clipboard not supported on this executor.")
+		end
+	end)
+	
+end
+coroutine.wrap(ZAUG_fake_script)()
+local function ZZMTIJ_fake_script() -- PasteButton.LocalScript 
+	local script = Instance.new('LocalScript', PasteButton)
+
+	local editorBox = script.Parent.Parent:WaitForChild("TextScroll"):WaitForChild("EditorBox")
+	
+	script.Parent.MouseButton1Click:Connect(function()
+		if getclipboard then
+			local clip = getclipboard()
+			if clip then
+				editorBox.Text = clip
+				print("📥 Pasted from clipboard.")
+			else
+				warn("⚠️ Clipboard is empty.")
+			end
+		else
+			warn("❌ Clipboard not supported on this executor.")
+		end
+	end)
+	
+end
+coroutine.wrap(ZZMTIJ_fake_script)()
