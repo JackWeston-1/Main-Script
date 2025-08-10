@@ -1,0 +1,59 @@
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+local Window = WindUI:CreateWindow({
+    Title = "Cat Hub",
+    Icon = "door-open",
+    Author = "Made By Minh",
+    Folder = "XYZHub",
+    Size = UDim2.fromOffset(490, 320),
+    Transparent = true,
+    Theme = "Dark",
+    Resizable = true,
+    SideBarWidth = 190,
+    Background = "", -- rbxassetid only
+    BackgroundImageTransparency = 0.42,
+    HideSearchBar = false,
+    ScrollBarEnabled = false,
+    User = {
+        Enabled = true,
+        Anonymous = true,
+        Callback = function()
+            print("clicked")
+        end,
+    },
+})
+
+Window:EditOpenButton({
+    Title = "BSS",
+    Icon = "monitor",
+    CornerRadius = UDim.new(0,16),
+    StrokeThickness = 2,
+    Color = ColorSequence.new( -- gradient
+        Color3.fromHex("FF0F7B"), 
+        Color3.fromHex("F89B29")
+    ),
+    OnlyMobile = false,
+    Enabled = true,
+    Draggable = true,
+})
+
+
+----------------------------------------------TABS--------------------------------------------------
+
+
+local MainTab = Window:Tab({
+    Title = "Main",
+    Icon = "house",
+    Desc = "Main Section",
+    Locked = false,
+})
+
+Window:SelectTab(1)
+
+----------------------------------------------Sections-------------------------------------------------
+
+local Section = MainTab:Section({ 
+    Title = "Main",
+    TextXAlignment = "Center",
+    TextSize = 17, -- Default Size
+})
