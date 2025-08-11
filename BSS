@@ -57,3 +57,144 @@ local Section = MainTab:Section({
     TextXAlignment = "Center",
     TextSize = 17, -- Default Size
 })
+
+----------------------------------------------Main-------------------------------------------------------
+
+local TweenService = game:GetService("TweenService")
+local Workspace = game:GetService("Workspace")
+local Players = game:GetService("Players")
+
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+local RootPart = Character:WaitForChild("HumanoidRootPart")
+
+-- CONFIG
+local CollectDistance = 50
+local MaxHeightDifference = 7
+local AutoCollect = false
+local SelectedField = nil
+local Tweening = false
+
+-- Lấy danh sách cánh đồng
+local FlowerZones = Workspace:WaitForChild("FlowerZones")
+local fieldNames = {}
+for _, part in pairs(FlowerZones:GetChildren()) do
+    if part:IsA("BasePart") then
+        table.insert(fieldNames, part.Name)
+    end
+end
+table.sort(fieldNames) -- Sắp xếp bảng chữ cái
+
+-- Tạo Dropdown
+local Dropdown = MainTab:Dropdown({
+    Title = "Chọn Cánh Đồng",
+    Values = fieldNames,
+    Value = fieldNames[1],
+    Callback = function(option)
+        SelectedField = option
+        print("Đã chọn cánh đồng:", option)
+    end
+})
+
+-- Hàm Tween tới vị trí
+local function TweenTo(position)
+    if not RootPart or Tweening then return end
+    Tweening = true
+    local tween = TweenService:Create(
+        RootPart,
+        TweenInfo.new((RootPart.Position - position).Magnitude / 20, Enum.EasingStyle.Linear),
+        {CFrame = CFrame.new(position)}
+    )
+    tween:Play()
+    tween.Completed:Wait()
+    Tweening = false
+end
+
+-- Hàm auto nhặt token
+local function CollectTokens()
+    while AutoCollect do
+        for _, token in pairs(Workspace:WaitForChild("Collectibles"):GetChildren()) do
+            if token:IsA("BasePart") and token.Transparency < 1 then
+                local distance = (token.Position - RootPart.Position).Magnitude
+                local heightDifference = token.Position.Y - RootPart.Position.Y
+                if distance <= CollectDistance and heightDifference <= MaxHeightDifference then
+                    Humanoid:MoveTo(token.Position)
+                end
+            end
+        end
+        task.wait(0.05)
+    end
+end
+
+-- Toggle bật/tắt
+local Toggle = MainTab:Toggle({
+    Title = "Auto Farm",
+    Desc = "Auto Farm",
+    Default = false,
+    Callback = function(state)
+        AutoCollect = state
+        if state then
+            if SelectedField and FlowerZones:FindFirstChild(SelectedField) then
+                local targetPart = FlowerZones[SelectedField]
+                TweenTo(targetPart.Position + Vector3.new(0, 3, 0))
+            end
+            task.spawn(CollectTokens)
+        end
+    end
+})
+
+-- Khi respawn
+Player.CharacterAdded:Connect(function(newChar)
+    Character = newChar
+    Humanoid = Character:WaitForChild("Humanoid")
+    RootPart = Character:WaitForChild("HumanoidRootPart")
+end)
+
+
+
+
+
+
+local Toggle = MainTab:Toggle({ 
+    Title = "Auto Dig",
+    Desc = "Tự động đào",
+    Icon = "bird",
+    Type = "Checkbox",
+    Default = false,
+    Callback = function(state) 
+        getgenv().AutoDigEnabled = state
+    end
+})
+
+if not getgenv().warpF2 then 
+    local connect
+    local old
+    old = hookmetamethod(game,"__index",function(...) 
+        if checkcaller() then return old(...) end
+        if tostring(getcallingscript()) == "RbxCharacterSounds" and not connect then 
+            connect = Instance.new("BindableFunction")
+            connect.OnInvoke = function(f) 
+                return f()
+            end
+        end
+        return old(...)
+    end)
+    repeat task.wait() until connect
+    getgenv().warpF2 = function(f) 
+        return connect:Invoke(f)
+    end
+end
+
+local LocalCollect = require(game.ReplicatedStorage.Collectors.LocalCollect)
+
+-- Chạy vòng lặp chính
+task.spawn(function()
+    while task.wait(0.1) do
+        if getgenv().AutoDigEnabled then
+            warpF2(function()
+                LocalCollect:Run()
+            end)
+        end
+    end
+end)
